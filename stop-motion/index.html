@@ -86,7 +86,7 @@
                     let new_pos = current_pos + movement; // calculate new position
                                         
                     if (Math.abs(movement) >= Math.abs(distance)) {
-                        newPos = current_pos + distance;
+                        new_pos = current_pos + distance;
                         clearInterval(interval_id);
                         active = true;
                         command_elem.style.top = new_pos + 'px';                        
