@@ -72,7 +72,7 @@
             requestAnimationFrame(draw);
 
             function move_up(distance){
-                
+                // animate the list offscreen
                 const start = Date.now();
                 const duration = 100; // 2 seconds
                 //const distance = -100;
@@ -93,6 +93,7 @@
                         return;
                     }
                     command_elem.style.top = new_pos + 'px';
+                    const curr_commands = document.querySelectorAll('.panel_commands ul li');
                     
 
                 }
@@ -105,7 +106,13 @@
                 if (curr_commands){
                     const active_command_elem = curr_commands[active_command];
                     if (active_command_elem){
-                        //console.log(active_command_elem);
+                        // console.log(active_command_elem);
+                        // for (let i = 0; i < 5; i++){                                            
+                        //     const featured_elem = curr_commands[active_command + i];
+                        //     if (featured_elem) featured_elem.classList.add('featured');
+                            
+
+                        // }
                         const progress = active_command_elem.querySelector('.progress');
                         if (progress){
                             const duration = active_command_elem.getAttribute('data-action-duration');
@@ -115,12 +122,10 @@
                                 const progress_width_int = parseInt(progress_width);
                                 if (progress_width_int < 100){
                                     progress.style.width = progress_width_int + 1 + '%';
-                                } else {
-                                    // get height of div
-                                    
+                                } else {                                                                        
                                     const elem = active_command_elem;
                                     const total_height = elem.offsetHeight;
-                                    active = false;
+                                    active = false;                        
                                     move_up(- 1 * total_height);
                                     active_command++;
                                 }
@@ -130,6 +135,7 @@
                         }
                     }
                     if (active){                        
+                        // reset list
                         if (active_command >= commands.length){
                             active_command = 0;
                             commands = [];
