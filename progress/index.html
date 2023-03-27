@@ -1,0 +1,58 @@
+<html>
+    <head></head>
+    <body>
+        <div class="progress">
+            <div class="progress_bar"></div>
+        </div>        
+        <script>
+            var start = Date.now();
+            // 10 minutes
+            var end = 60000;
+            var progress = document.querySelector('.progress_bar');
+            let percentage = 0;
+            var totalHeight = document.body.scrollHeight - window.innerHeight;
+            requestAnimationFrame(animate);
+            function animate(){
+                var now = Date.now();
+                var time = now - start;
+                percentage = (time / end) * 100;
+                if(percentage > 100){
+                    percentage = 100;
+                }
+                
+                progress.style.width = percentage + "%";
+                progress.textContent = Math.round(percentage) + "%";
+                requestAnimationFrame(animate);
+
+            }        
+        </script>
+        <style>
+            html, body{
+                margin: 0;
+                padding: 0;
+                height: 100%;
+            }
+            .progress{                
+                width: 100%;
+                height: 100%;
+                background: red;
+                position: relative;                
+            }
+            .progress_bar{
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 30vh;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                max-width: 100%;
+                background: green;
+                width: 0;
+            }
+        </style>
+    </body>
+</html>
