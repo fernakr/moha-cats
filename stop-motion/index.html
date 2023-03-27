@@ -46,8 +46,10 @@
             var command_elem = document.querySelector('.panel_commands ul');
             buttons.forEach(function(button){
                 button.addEventListener('click', function(){
+                    const name = button.getAttribute('data-action-name');
+                    commands.push(name);
                     updateCommands({ 
-                        name: button.getAttribute('data-action-name'),
+                        name,
                         duration: button.getAttribute('data-action-duration')
                     });                    
                 })
@@ -63,12 +65,13 @@
                 li.appendChild(li_progress);
             }
 
-            let state = 'play';
+            let active = true;
             let state_duration;
+
 
             requestAnimationFrame(draw);
 
-            function move_up(distance){
+            function moveUp(distance){
                 
                 const start = Date.now();
                 const duration = 100; // 2 seconds
@@ -85,6 +88,7 @@
                     if (Math.abs(movement) >= Math.abs(distance)) {
                         newPos = currentPos + distance;
                         clearInterval(intervalId);
+                        active = true;
                         command_elem.style.top = newPos + 'px';                        
                         return;
                     }
@@ -107,7 +111,7 @@
                             const duration = active_command_elem.getAttribute('data-action-duration');
                             const progress_width = progress.style.width;
                             if (progress_width){
-                                
+
                                 const progress_width_int = parseInt(progress_width);
                                 if (progress_width_int < 100){
                                     progress.style.width = progress_width_int + 1 + '%';
@@ -119,7 +123,8 @@
                                     const totalHeight = elem.offsetHeight;
 
                                     //console.log(totalHeight);
-                                    move_up(- 1 * totalHeight);
+                                    active = false;
+                                    moveUp(- 1 * totalHeight);
                                     activeCommand++;
                                 }
                             } else {
@@ -127,7 +132,15 @@
                             }
                         }
                     }
-                }      
+                    if (active){                        
+                        if (activeCommand >= commands.length){
+                            activeCommand = 0;
+                            commands = [];
+                            command_elem.innerHTML = '';
+                            command_elem.style.top = 0;
+                        }
+                    }                    
+                }  
             
                           
                 requestAnimationFrame(draw);
