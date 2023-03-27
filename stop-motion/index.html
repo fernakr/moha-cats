@@ -32,7 +32,7 @@
             ]
 
             let commands = [];
-            let activeCommand = 0;
+            let active_command = 0;
 
             var panel = document.querySelector('.panel_buttons');
             for (var i = 0; i < actions.length; i++) {
@@ -71,39 +71,39 @@
 
             requestAnimationFrame(draw);
 
-            function moveUp(distance){
+            function move_up(distance){
                 
                 const start = Date.now();
                 const duration = 100; // 2 seconds
                 //const distance = -100;
-                const currentPos = command_elem.offsetTop;
+                const current_pos = command_elem.offsetTop;
 
-                function moveDiv() {
+                function move_list() {
                     
                     const elapsed = Date.now() - start;
                     const movement = (distance / duration * elapsed);
                     
-                    let newPos = currentPos + movement; // calculate new position
+                    let new_pos = current_pos + movement; // calculate new position
                                         
                     if (Math.abs(movement) >= Math.abs(distance)) {
-                        newPos = currentPos + distance;
-                        clearInterval(intervalId);
+                        newPos = current_pos + distance;
+                        clearInterval(interval_id);
                         active = true;
-                        command_elem.style.top = newPos + 'px';                        
+                        command_elem.style.top = new_pos + 'px';                        
                         return;
                     }
-                    command_elem.style.top = newPos + 'px';
+                    command_elem.style.top = new_pos + 'px';
                     
 
                 }
 
-                const intervalId = setInterval(moveDiv, 10); // update position every 10 milliseconds
+                const interval_id = setInterval(move_list, 10); // update position every 10 milliseconds
 
             }
             function draw(){                             
                 const curr_commands = document.querySelectorAll('.panel_commands ul li');
                 if (curr_commands){
-                    const active_command_elem = curr_commands[activeCommand];
+                    const active_command_elem = curr_commands[active_command];
                     if (active_command_elem){
                         //console.log(active_command_elem);
                         const progress = active_command_elem.querySelector('.progress');
@@ -119,13 +119,10 @@
                                     // get height of div
                                     
                                     const elem = active_command_elem;
-
-                                    const totalHeight = elem.offsetHeight;
-
-                                    //console.log(totalHeight);
+                                    const total_height = elem.offsetHeight;
                                     active = false;
-                                    moveUp(- 1 * totalHeight);
-                                    activeCommand++;
+                                    move_up(- 1 * total_height);
+                                    active_command++;
                                 }
                             } else {
                                 progress.style.width = '1%';
@@ -133,8 +130,8 @@
                         }
                     }
                     if (active){                        
-                        if (activeCommand >= commands.length){
-                            activeCommand = 0;
+                        if (active_command >= commands.length){
+                            active_command = 0;
                             commands = [];
                             command_elem.innerHTML = '';
                             command_elem.style.top = 0;
