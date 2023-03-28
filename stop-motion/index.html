@@ -15,43 +15,46 @@
             var actions = [
                 {
                     name: 'lamp',
-                    duration: 1000
+                    duration: 3000 // 3 seconds
                 },
                 {
                     name: 'object 2',
-                    duration: 30000
+                    duration: 6000 // 6 seconds
                 },
                 {
                     name: 'object 3',
-                    duration: 1000
+                    duration: 10000 // 10 seconds
                 },
                 {
                     name: 'object 4',
-                    duration: 1000
+                    duration: 3000 // 3 seconds
                 }
             ]
 
             let commands = [];
             let active_command = 0;
+            let command_start;
 
             var panel = document.querySelector('.panel_buttons');
             for (var i = 0; i < actions.length; i++) {
                 var button = document.createElement('button');
                 button.innerText = actions[i].name;
                 button.setAttribute('data-action-name', actions[i].name);
-                button.setAttribute('data-action-duration', actions[i].duration);
+                button.setAttribute('data-action-duration', actions[i].duration);                
                 panel.appendChild(button);
             }
             var buttons = document.querySelectorAll('button');
             var command_elem = document.querySelector('.panel_commands ul');
             buttons.forEach(function(button){
                 button.addEventListener('click', function(){
+
                     const name = button.getAttribute('data-action-name');
-                    commands.push(name);
+                    commands.push(name);                    
                     update_commands({ 
                         name,
                         duration: button.getAttribute('data-action-duration')
                     });                    
+                    if (!command_start) command_start = Date.now()
                 })
             })
 
@@ -62,6 +65,7 @@
                 li.innerText = name;
                 command_elem.appendChild(li);
                 li.appendChild(li_progress);
+                li.setAttribute('data-action-duration', duration);
                 
                 set_featured();
             }
@@ -76,10 +80,17 @@
                 const curr_commands = document.querySelectorAll('.panel_commands ul li');
                 if (curr_commands){
                     for (var i = 0; i < 2; i++) {
-                        curr_commands[active_command + i].classList.add('featured');
+                        if (curr_commands[active_command + i]) curr_commands[active_command + i].classList.add('featured');
                     }
                     
                 }
+            }
+
+            function reset_commands(){
+                active_command = 0;
+                commands = [];
+                command_elem.innerHTML = '';
+                command_elem.style.top = 0;
             }
             function move_up(distance){
                 // animate the list offscreen
@@ -113,6 +124,7 @@
 
             }
             
+            
             function draw(){                             
                 const curr_commands = document.querySelectorAll('.panel_commands ul li');
                 if (curr_commands){
@@ -121,32 +133,30 @@
                     if (active_command_elem){                        
                         const progress = active_command_elem.querySelector('.progress');
                         if (progress){
-                            const duration = active_command_elem.getAttribute('data-action-duration');
-                            const progress_width = progress.style.width;
-                            if (progress_width){
-
-                                const progress_width_int = parseInt(progress_width);
-                                if (progress_width_int < 100){
-                                    progress.style.width = progress_width_int + 1 + '%';
-                                } else {                                                                        
-                                    const elem = active_command_elem;
-                                    const total_height = elem.offsetHeight;
-                                    active = false;                        
-                                    move_up(- 1 * total_height);
-                                    active_command++;
-                                }
-                            } else {
-                                progress.style.width = '1%';
+                            const duration = parseFloat(active_command_elem.getAttribute('data-action-duration'));
+                                                        
+                            const progress_width = (Date.now() - command_start )/ duration * 100;                                                    
+                            if (progress_width >= 100){    
+                                // done
+                                const elem = active_command_elem;
+                                const total_height = elem.offsetHeight;
+                                active = false;                        
+                                move_up(- 1 * total_height);
+                                command_start = Date.now();
+                                active_command++;                                
+                                
+                            } else {                
+                                progress.style.width = progress_width + '%';
+                            
                             }
+                    
                         }
                     }
                     if (active){                        
                         // reset list
                         if (active_command >= commands.length){
-                            active_command = 0;
-                            commands = [];
-                            command_elem.innerHTML = '';
-                            command_elem.style.top = 0;
+                            command_start = false;
+                            reset_commands();
                         }
                     }                    
                 }  
