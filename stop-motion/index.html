@@ -15,19 +15,23 @@
             var actions = [
                 {
                     name: 'lamp',
-                    duration: 3000 // 3 seconds
+                    duration: 3000, // 3 seconds
+                    color: 'red'
                 },
                 {
                     name: 'object 2',
-                    duration: 6000 // 6 seconds
+                    duration: 6000, // 6 seconds
+                    color: 'green'
                 },
                 {
                     name: 'object 3',
-                    duration: 10000 // 10 seconds
+                    duration: 10000, // 10 seconds
+                    color: 'yellow'
                 },
                 {
                     name: 'object 4',
-                    duration: 3000 // 3 seconds
+                    duration: 3000, // 3 seconds
+                    color: 'blue'
                 }
             ]
 
@@ -40,7 +44,9 @@
                 var button = document.createElement('button');
                 button.innerText = actions[i].name;
                 button.setAttribute('data-action-name', actions[i].name);
-                button.setAttribute('data-action-duration', actions[i].duration);                
+                button.setAttribute('data-action-duration', actions[i].duration);   
+                button.setAttribute('data-action-color', actions[i].color);
+                button.classList.add('bg-' + actions[i].color);
                 panel.appendChild(button);
             }
             var buttons = document.querySelectorAll('button');
@@ -49,19 +55,23 @@
                 button.addEventListener('click', function(){
 
                     const name = button.getAttribute('data-action-name');
+                    const duration = button.getAttribute('data-action-duration');
+                    const color = button.getAttribute('data-action-color');
                     commands.push(name);                    
                     update_commands({ 
                         name,
-                        duration: button.getAttribute('data-action-duration')
+                        duration,
+                        color
                     });                    
                     if (!command_start) command_start = Date.now()
                 })
             })
 
-            const update_commands = ({ name, duration}) => {                                
+            const update_commands = ({ name, duration, color}) => {                                
                 var li = document.createElement('li');
                 var li_progress = document.createElement('span');                
-                li_progress.classList.add('progress');                
+                li_progress.classList.add('progress', 'bg-' + color);   
+                            
                 li.innerText = name;
                 command_elem.appendChild(li);
                 li.appendChild(li_progress);
@@ -207,17 +217,31 @@
                     height: 100%;
                     left: 0;
                     top: 0;
-                    mix-blend-mode: screen;
+                    mix-blend-mode: difference;
                 }
             /* .panel{
                 display: grid;
 
             } */
+
+            .bg-red{
+                background-color: red;
+            }
+            .bg-green{
+                background-color: green;
+            }
+            .bg-yellow{
+                background-color: yellow;
+            }
+            .bg-blue{
+                background-color: blue;
+            }
             .panel_buttons{
                 width: 30vw;
-                display: grid;                
+                display: grid;                            
             }
             button{
+                border-width: 10px;    
                 font-size: 10vh;
             }
         </style>
