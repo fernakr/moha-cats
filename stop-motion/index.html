@@ -48,21 +48,22 @@
                 button.addEventListener('click', function(){
                     const name = button.getAttribute('data-action-name');
                     commands.push(name);
-                    updateCommands({ 
+                    update_commands({ 
                         name,
                         duration: button.getAttribute('data-action-duration')
                     });                    
                 })
             })
 
-            const updateCommands = ({ name, duration}) => {                
-                
+            const update_commands = ({ name, duration}) => {                                
                 var li = document.createElement('li');
                 var li_progress = document.createElement('span');                
                 li_progress.classList.add('progress');                
                 li.innerText = name;
                 command_elem.appendChild(li);
                 li.appendChild(li_progress);
+                
+                set_featured();
             }
 
             let active = true;
@@ -71,6 +72,15 @@
 
             requestAnimationFrame(draw);
 
+            function set_featured(){
+                const curr_commands = document.querySelectorAll('.panel_commands ul li');
+                if (curr_commands){
+                    for (var i = 0; i < 2; i++) {
+                        curr_commands[active_command + i].classList.add('featured');
+                    }
+                    
+                }
+            }
             function move_up(distance){
                 // animate the list offscreen
                 const start = Date.now();
@@ -89,7 +99,8 @@
                         new_pos = current_pos + distance;
                         clearInterval(interval_id);
                         active = true;
-                        command_elem.style.top = new_pos + 'px';                        
+                        command_elem.style.top = new_pos + 'px';
+                        set_featured()
                         return;
                     }
                     command_elem.style.top = new_pos + 'px';
@@ -101,18 +112,13 @@
                 const interval_id = setInterval(move_list, 10); // update position every 10 milliseconds
 
             }
+            
             function draw(){                             
                 const curr_commands = document.querySelectorAll('.panel_commands ul li');
                 if (curr_commands){
                     const active_command_elem = curr_commands[active_command];
-                    if (active_command_elem){
-                        // console.log(active_command_elem);
-                        // for (let i = 0; i < 5; i++){                                            
-                        //     const featured_elem = curr_commands[active_command + i];
-                        //     if (featured_elem) featured_elem.classList.add('featured');
-                            
 
-                        // }
+                    if (active_command_elem){                        
                         const progress = active_command_elem.querySelector('.progress');
                         if (progress){
                             const duration = active_command_elem.getAttribute('data-action-duration');
@@ -165,9 +171,12 @@
             .panel_commands{
                 width: 70vw;
                 background-color: black;
-                color: white;            
-                font-size: 10vh;                                
+                color: white;                            
+                                             
             }
+                .panel_commands .featured{
+                    font-size: 10vh;                                
+                }
                 .panel_commands ul{
                     margin: 0;
                     padding: 0;
@@ -175,7 +184,9 @@
                     list-style: none;
                 }
                 .panel_commands li{
+                    transition: 0.3s font-size;
                     margin: 0;
+                    font-size: 5vh;   
                     position: relative;
                     padding: 10px 20px;
                     border-bottom: 1px solid white;
