@@ -11,27 +11,35 @@
 
             </div>
         </div>
+        
         <script>
+
+            // duration is in seconds
             var actions = [
                 {
-                    name: 'lamp',
-                    duration: 6, // 6 seconds
+                    name: 'rug',
+                    duration: 6, 
                     color: 'red'
                 },
                 {
-                    name: 'object 2',
-                    duration: 9, // 9 seconds
+                    name: 'spin',
+                    duration: 9, 
                     color: 'green'
                 },
                 {
-                    name: 'object 3',
-                    duration: 10, // 10 seconds
+                    name: 'destroy',
+                    duration: 10, 
                     color: 'yellow'
                 },
                 {
-                    name: 'object 4',
-                    duration: 15, // 15 seconds
-                    color: 'blue'
+                    name: 'tighten',
+                    duration: 15, 
+                    color: 'royalblue'
+                },
+                {
+                    name: 'appeal to power',
+                    duration: 15,
+                    color: 'orange'
                 }
             ]
 
@@ -47,7 +55,7 @@
                 button.setAttribute('data-action-name', actions[i].name);
                 button.setAttribute('data-action-duration', actions[i].duration);
                 button.setAttribute('data-action-color', actions[i].color);
-                button.classList.add('bg-' + actions[i].color);
+                button.style.backgroundColor = actions[i].color;
                 panel.appendChild(button);
             }
             var buttons = document.querySelectorAll('button');
@@ -73,8 +81,9 @@
             const update_commands = ({ name, duration, color}) => {                                
                 var li = document.createElement('li');
                 var li_progress = document.createElement('span');                
-                li_progress.classList.add('progress', 'bg-' + color);   
-                li.classList.add('text-' + color);
+                li_progress.classList.add('progress')
+                li_progress.style.backgroundColor = color; 
+                li.style.color = color;
                             
                 li.innerText = name;
                 command_elem.appendChild(li);
@@ -256,45 +265,17 @@
                     top: 0;
                     mix-blend-mode: difference;
                 }
-            /* .panel{
-                display: grid;
-
-            } */
-
-            .bg-red{
-                background-color: red;
-            }
-            .bg-green{
-                background-color: green;
-            }
-            .bg-yellow{
-                background-color: yellow;
-            }
-            .bg-blue{
-                background-color: blue;
-            }
-
-            .text-red{
-                color: red;
-            }
-            .text-green{
-                color: green;
-            }
-            .text-yellow{
-                color: yellow;
-            }
-            .text-blue{
-                color: blue;
-            }
+         
             .panel_buttons{
-                width: 30vw;
+                width: 40vw;
                 display: grid;                            
             }
             button{
                 border-width: 10px;    
-                font-size: 10vh;
+                font-size: 8vh;
                 cursor: pointer;
+                line-height: 0.9;
             }
         </style>
     </body>
-</html>
+</html>bu
