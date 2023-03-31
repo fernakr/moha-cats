@@ -62,11 +62,11 @@ function draw(){
   fill('green');
 
   rect(0, 0, progress, height);
-  const timeElapsed = Date.now() - timeStart;
+//  const timeElapsed = Date.now() - timeStart;
 
-  fill('white');
-  textSize(100);
-  text(timeElapsed/ 1000, width/2, height/2);
+  // fill('white');
+  // textSize(100);
+  // text(timeElapsed/ 1000, width/2, height/2);
 
   if (progress >= width){
     noLoop();
