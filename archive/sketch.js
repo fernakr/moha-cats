@@ -41,7 +41,7 @@ function setup() {
 
 let duration = 100, currTime = 0;
 let offset = 0, limit = 10;
-let videoLimit = 50;
+let videoLimit = 30;
 
 
 
