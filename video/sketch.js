@@ -66,7 +66,7 @@ function draw() {
   // }
 
 
-  currTime++;
+  //currTime++;
   
   shader(theShader);
 
@@ -77,6 +77,8 @@ function draw() {
   // sound.rate(rate);
 
   
+  theShader.setUniform('uTime', millis());
+  theShader.setUniform('uMouse', [mouseX, mouseY]);
   theShader.setUniform('tex0', bgVideo);
 
   
