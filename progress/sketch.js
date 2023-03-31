@@ -27,7 +27,7 @@ function draw(){
     const types = [
       {
         value: 1 + 1.5 * random(0.5, 1),
-        probability: 0.55,
+        probability: 0.6,
         duration: 100 + random(0, 1) * 40
       },
       {
