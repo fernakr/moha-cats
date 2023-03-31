@@ -1,5 +1,8 @@
 let progress = 0;
-let duration = 1; // minutes
+
+// get duration from query string
+let urlParams = new URLSearchParams(window.location.search);
+let duration = urlParams.get('duration') || 1; // minutes
 let incrementBase;
 
 function setup(){
@@ -12,21 +15,23 @@ let currDuration;
 let usedTypes = [];
 
 let first = true;
+let timeStart = Date.now();
 function draw(){
        
   const randomInput2 = random(0, 1);  
 
+  
   if (!currType || currDuration >= currType.duration){  
     currDuration = 0;
 
     const types = [
       {
-        value: 1 + 2 * random(0.5, 1),
-        probability: 0.7,
-        duration: 30 + random(0, 1) * 40
+        value: 1 + 1.5 * random(0.5, 1),
+        probability: 0.55,
+        duration: 100 + random(0, 1) * 40
       },
       {
-        value: -1 * 2 * random(0.5, 1),
+        value: -1 - 1.5 * random(0.5, 1),
         probability: 0.9,
         duration: 50 + random(0, 1) * 70
       },      
@@ -55,7 +60,14 @@ function draw(){
 
   background(0);
   fill('green');
+
   rect(0, 0, progress, height);
+  const timeElapsed = Date.now() - timeStart;
+
+  fill('white');
+  textSize(100);
+  text(timeElapsed/ 1000, width/2, height/2);
+
   if (progress >= width){
     noLoop();
   }
