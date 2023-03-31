@@ -39,8 +39,8 @@ function setup() {
 
 }
 
-let duration = 100, currTime = 0;
-let offset = 0, limit = 10;
+let duration = 150, currTime = 0;
+let offset = 0, limit = 15;
 let videoLimit = 30;
 
 
@@ -73,10 +73,10 @@ function draw(){
 function randomPosition() {
   // Set the maximum range of positions
   let maxPosition = width;
-  let minPosition = width/2;
+  let minPosition = width * 2/5;
   
   // Set the probability factor for the right side
-  let rightFactor = 2;
+  let rightFactor = 10;
   
   // Generate a random number between 0 and 1
   let randNum = random();
@@ -103,6 +103,8 @@ function getGiphyData() {
   loadJSON(url, gotGiphyData);
 }
 
+let currHeight = 0;
+
 function gotGiphyData(data) {  
   data.data.forEach(item => {
 
@@ -112,10 +114,12 @@ function gotGiphyData(data) {
     const video = createVideo(item.images.downsized_small.mp4);
     
     const x = randomPosition();
-    const y = random(height);
+    currHeight += height/limit;
+    if (currHeight > height) currHeight = 0;
+    const y = currHeight;    
     video.volume(0);    
     video.position(x, y);
-    const size = random(100, map(x, width/2, width, 200, 400));    
+    const size = random(map(x, width * 2/5, width, 70, 300), map(x, width * 2/5, width, 100, 400));    
     video.size(size, size);
     video.loop();
     const videoEl = video.elt;
