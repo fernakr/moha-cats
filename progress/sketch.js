@@ -22,12 +22,12 @@ function draw(){
     const types = [
       {
         value: 1 + 2 * random(0.5, 1),
-        probability: 0.5,
+        probability: 0.7,
         duration: 30 + random(0, 1) * 40
       },
       {
         value: -1 * 2 * random(0.5, 1),
-        probability: 0.8,
+        probability: 0.9,
         duration: 50 + random(0, 1) * 70
       },      
       {
