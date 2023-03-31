@@ -12,6 +12,8 @@ canvas{
 	position: fixed;
 	top: 0;
 	left: 0;
+	height: 100%;
+	width: 100%;
 }
 
 body {
@@ -21,7 +23,7 @@ body {
 	justify-content: center;
 	margin: 0;
 }
-
+/* 
 #sketchContainer {
 	display: flex;
 	flex-flow: column;
@@ -31,4 +33,4 @@ body {
 
 	overflow: visible;
 }
-
+ */
