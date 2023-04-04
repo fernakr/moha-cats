@@ -1,16 +1,20 @@
 <html>
     <head>
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
 
     </head>
-    <body>
-        <div class="panel">
-            <div class="panel_buttons"></div>
-            <div class="panel_commands">
-                <ul>                                  
-                </ul>                
+    <body>        
+        <main>
+            <div id="main"></div>
+            <div class="panel">
+                <div class="panel_buttons"></div>
+                <div class="panel_commands">
+                    <ul>                                  
+                    </ul>                
 
+                </div>
             </div>
-        </div>
+        </main>
         
         <script>
 
@@ -18,27 +22,27 @@
             var actions = [
                 {
                     name: 'rug',
-                    duration: 6, 
+                    duration: 30, 
                     color: 'red'
                 },
                 {
                     name: 'spin',
-                    duration: 9, 
+                    duration: 30, 
                     color: 'green'
                 },
                 {
                     name: 'destroy',
-                    duration: 10, 
+                    duration: 30, 
                     color: 'yellow'
                 },
                 {
                     name: 'tighten',
-                    duration: 15, 
+                    duration: 30, 
                     color: 'royalblue'
                 },
                 {
                     name: 'appeal to power',
-                    duration: 15,
+                    duration: 30,
                     color: 'orange'
                 }
             ]
@@ -121,7 +125,9 @@
                 const start = Date.now();
                 const duration = 100; // 2 seconds
                 //const distance = -100;
-                const current_pos = command_elem.offsetTop;
+                const command_elem_parent = command_elem.parentElement;
+
+                const current_pos = command_elem.offsetTop - command_elem_parent.offsetTop;
 
                 function move_list() {
                     
@@ -129,7 +135,9 @@
                     const movement = (distance / duration * elapsed);
                     
                     let new_pos = current_pos + movement; // calculate new position
-                                        
+                              
+                    console.log(movement);
+                    console.log(distance);
                     if (Math.abs(movement) >= Math.abs(distance)) {
                         new_pos = current_pos + distance;
                         clearInterval(interval_id);
@@ -162,7 +170,10 @@
                             const progress_width = (Date.now() - command_start )/ duration * 100;                                                    
                             if (progress_width >= 100){    
                                 // done
+                                
                                 const elem = active_command_elem;
+                                console.log(elem);
+                                console.log(elem.offsetHeight);
                                 const total_height = elem.offsetHeight;
                                 active = false;                        
                                 move_up(- 1 * total_height);
@@ -201,12 +212,20 @@
 
         </script>
         <style>
+            canvas{
+                display: none;
+            }
+            #main canvas{
+                display: block;
+                max-height: 10vh;
+            }
             *{
                 box-sizing: border-box;
             }
             body{
+                background-color: black;
                 margin: 0;
-                position: relative;
+                position: relative;                
             }
                 body.is-paused:before{
                     content: 'Paused';
@@ -224,14 +243,28 @@
                     justify-content: center;
 
                 }
+
+            main{
+                height: 100vh;
+                /* display: flex;
+                flex-direction: column-reverse; */
+                
+            }
+
+            canvas{
+                height: 10vh;
+                border-bottom: 1px solid white;
+            }
+                
+            
             .panel{
                 display: flex;
                 width: 100%;
-                height: 100vh;
+                
             }
             .panel_commands{
                 width: 60vw;
-                height: 100vh;
+                height: 90vh;
                 overflow: scroll;
                 background-color: black;
                 color: white;                            
@@ -276,6 +309,8 @@
                 cursor: pointer;
                 line-height: 0.9;
             }
-        </style>
+        </style>        
+                
+        <script src="../progress/sketch.js" defer></script>
     </body>
 </html>
