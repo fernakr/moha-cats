@@ -20,31 +20,32 @@
         
         <script>
 
+            const default_duration = 5; // frames
             // duration is in seconds
             var actions = [
                 {
                     name: 'rug',
-                    duration: 30, 
+                    duration: default_duration, 
                     color: 'limegreen'
                 },
                 {
                     name: 'spin',
-                    duration: 30, 
+                    duration: default_duration, 
                     color: 'magenta'
                 },
                 {
                     name: 'destroy',
-                    duration: 30, 
+                    duration: default_duration, 
                     color: 'yellow'
                 },
                 {
                     name: 'tighten',
-                    duration: 30, 
+                    duration: default_duration, 
                     color: 'cyan'
                 },
                 {
                     name: 'appeal to power',
-                    duration: 30,
+                    duration: default_duration,
                     color: 'orange'
                 }
             ]
@@ -138,9 +139,7 @@
                     const movement = (distance / duration * elapsed);
                     
                     let new_pos = current_pos + movement; // calculate new position
-                              
-                    // console.log(movement);
-                    // console.log(distance);
+                                                  
                     if (Math.abs(movement) >= Math.abs(distance)) {
                         new_pos = current_pos + distance;
                         clearInterval(interval_id);
@@ -194,13 +193,19 @@
                         // reset list
                         if (active_command >= commands.length){
                             command_start = false;
+                            const last_command = commands[commands.length - 1];
                             reset_commands();
+                            if (last_command){
+                                const last_command_trigger = document.querySelector('[data-action-name="' + last_command + '"]');
+                                if (last_command_trigger) last_command_trigger.click();
+                            }
+                            
                         }
                     }                    
                 }  
             
-                console.log(paused);
-                console.log(Date.now());
+                // console.log(paused);
+                // console.log(Date.now());
                                      
                 if (!paused) requestAnimationFrame(loop);
             }

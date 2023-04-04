@@ -48,7 +48,7 @@ let sketch = function(p){
     const intendedPercentage = timeElapsed / (duration * 60 * 1000);
   
     const percentageDiff = currPercentage - intendedPercentage;
-    console.log(percentageDiff * 20);
+    //console.log(percentageDiff * 20);
     
     if (!currType || currDuration >= currType.duration){  
       currDuration = 0;
