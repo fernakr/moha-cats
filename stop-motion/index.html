@@ -55,7 +55,7 @@
             var panel = document.querySelector('.panel_buttons');
             for (var i = 0; i < actions.length; i++) {
                 var button = document.createElement('button');
-                button.innerText = actions[i].name;
+                button.innerHTML = actions[i].name + ' <small>(5 frames)</small>';
                 button.setAttribute('data-action-name', actions[i].name);
                 button.setAttribute('data-action-duration', actions[i].duration);
                 button.setAttribute('data-action-color', actions[i].color);
@@ -310,6 +310,13 @@
                 cursor: pointer;
                 line-height: 0.9;
             }
+                button small{
+                    opacity: 0.5;
+                    margin-top: 10px;
+                    white-space: nowrap;
+                    font-size: 0.4em;
+                    display: block;
+                }
         </style>        
                 
         <script src="../progress/sketch.js" defer></script>
