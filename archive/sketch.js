@@ -4,7 +4,8 @@ let objectData;
 // change API root url depending on build or dev
 //const apiRoot = process.env.NODE_ENV === 'development' ? 'http://localhost:2000' : 'https://moha-cats.herokuapp.com';
 
-const apiRoot = 'http://localhost:2000';
+//const apiRoot = 'http://localhost:2000';
+const apiRoot = 'https://moha-cats.herokuapp.com';
 
 
 
