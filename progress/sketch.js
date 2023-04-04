@@ -7,7 +7,7 @@ let sketch = function(p){
   let duration = urlParams.get('duration') || 1; // minutes
   let incrementBase;
   
-  p.setup = () => {
+  p.setup = () => {    
     p.createCanvas(p.windowWidth, p.windowHeight);    
     incrementBase = p.width / (duration * 60 * 60);
   }
@@ -16,10 +16,10 @@ let sketch = function(p){
   let currDuration;  
   
   let first = true;  
-  let p5Paused = false;
+  let p5Paused = true;
   
   p.keyPressed = () => {
-    if (keyCode === 32){
+    if (p.keyCode === 32){
       p5Paused = !p5Paused;
       if (p5Paused){
         p.noLoop();
@@ -27,14 +27,14 @@ let sketch = function(p){
         p.loop();
       }
       // add class to body
-      document.body.classList.toggle('is-Paused', p5Paused);
+      document.body.classList.toggle('is-paused', p5Paused);
     }
     // if key code is left arrow
-    if (keyCode === 37){
+    if (p.keyCode === 37){
       progress -= 100;
     }
     // if key code is right arrow
-    if (keyCode === 39){
+    if (p.keyCode === 39){
       progress += 100;
     }
   }
@@ -44,8 +44,8 @@ let sketch = function(p){
     p.resizeCanvas(p.windowWidth, p.windowHeight);
   }
   
-  p.draw = () => {
-         
+  p.draw = () => {          
+    //if (p5Paused) noLoop();
     const randomInput2 = p.random(0, 1);  
   
     
@@ -81,7 +81,7 @@ let sketch = function(p){
     const increment = incrementBase * currType.value;
   
   
-    progress += increment; 
+    if (!p5Paused) progress += increment; 
     if (progress < 0) progress = 0;
   
   
