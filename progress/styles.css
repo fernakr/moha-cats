@@ -1,5 +1,5 @@
 canvas{
-    border-radius: 100px;
+    border-radius: 30px;
     overflow: hidden;
     border: 2px inset #fff;
     box-sizing: border-box;
@@ -8,3 +8,14 @@ canvas{
         padding: 10px 20px;
         background-color: #ccc; 
     }
+    
+h2{
+    height: 30px;
+    margin: 0;    
+    text-transform: uppercase;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: #666;
+    font-weight: 600;    
+    letter-spacing: 1px;
+}    

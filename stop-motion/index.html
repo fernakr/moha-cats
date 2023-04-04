@@ -5,7 +5,9 @@
     </head>
     <body class="is-paused">        
         <main>
-            <div id="main" class="progress_wrapper"></div>
+            <div id="main" class="progress_wrapper">
+                <h2>Progress:</h2>
+            </div>
             <div class="panel">
                 <div class="panel_buttons"></div>
                 <div class="panel_commands">
@@ -216,9 +218,13 @@
             canvas{
                 display: none;
             }
+            /* h2{
+                margin: 0;                
+
+            } */
             #main canvas{
                 display: block;
-                max-height: calc(10vh - 20px);
+                max-height: calc(10vh - 20px - 30px);
             }
             *{
                 box-sizing: border-box;

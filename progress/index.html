@@ -25,6 +25,10 @@
             padding: 0;            
             background-color: gray;
         }
+   
+        canvas{
+          max-height: calc(100vh - 20px - 30px);
+        }
         body{
                 margin: 0;
                 position: relative;                
@@ -50,7 +54,9 @@
   </head>
 
   <body  class="is-paused">
-    <main id="main" class="progress_wrapper"></main>
+    <main id="main" class="progress_wrapper">
+      <h2>Progress:</h2>
+    </main>
     <script src="sketch.js" defer></script>
   </body>
 
