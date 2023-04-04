@@ -6,6 +6,7 @@ let sketch = function(p){
   let urlParams = new URLSearchParams(window.location.search);
   let duration = urlParams.get('duration') || 1; // minutes
   let incrementBase;
+  let timeElapsed = 0;
   
   const padding = 20;
   p.setup = () => {    
@@ -21,13 +22,7 @@ let sketch = function(p){
   
   p.keyPressed = () => {
     if (p.keyCode === 32){
-      p5Paused = !p5Paused;
-      // if (p5Paused){
-      //   p.noLoop();
-      // } else {
-      //   p.loop();
-      // }
-      // add class to body
+      p5Paused = !p5Paused;      
       document.body.classList.toggle('is-paused', p5Paused);
     }
     // if key code is left arrow
@@ -46,22 +41,29 @@ let sketch = function(p){
   }
   
   p.draw = () => {          
-    //if (p5Paused) noLoop();
+    
+    
     const randomInput2 = p.random(0, 1);  
+    const currPercentage = progress / p.width;
+    const intendedPercentage = timeElapsed / (duration * 60 * 1000);
   
+    const percentageDiff = currPercentage - intendedPercentage;
+    console.log(percentageDiff * 20);
     
     if (!currType || currDuration >= currType.duration){  
       currDuration = 0;
   
+      const probabilityFactor = p.map(percentageDiff, -0.1, 0.1, 0.2, -0.2)
+      let probabilityStart = 0.6 + probabilityFactor;
       const types = [
         {
           value: 1 + 1.5 * p.random(0.5, 1),
-          probability: 0.6,
+          probability: probabilityStart,
           duration: 100 + p.random(0, 1) * 40
         },
         {
           value: -1 - 1.5 * p.random(0.5, 1),
-          probability: 0.9,
+          probability: (1 - probabilityStart) * 2/3 + probabilityStart,
           duration: 50 + p.random(0, 1) * 70
         },      
         {
@@ -77,12 +79,16 @@ let sketch = function(p){
       first = false;
       
     }
+    const increment = incrementBase * currType.value;  
     currDuration++;  
   
-    const increment = incrementBase * currType.value;
+    
   
   
-    if (!p5Paused) progress += increment; 
+    if (!p5Paused) {
+      progress += increment; 
+      timeElapsed = timeElapsed + p.deltaTime;
+    }
     if (progress < 0) progress = 0;
   
   
