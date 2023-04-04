@@ -26,7 +26,7 @@ function setup() {
 
 let duration = 1000, currTime = 0;
 let offset = 0, limit = 15;
-let objectLimit = 45;
+let objectLimit = 30;
 
 
 
