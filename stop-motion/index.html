@@ -50,7 +50,7 @@
             let commands = [];
             let active_command = 0;
             let command_start;
-            let paused = false;
+            let paused = true;
 
             var panel = document.querySelector('.panel_buttons');
             for (var i = 0; i < actions.length; i++) {
@@ -100,8 +100,7 @@
             let active = true;
             let state_duration;
 
-
-            requestAnimationFrame(draw);
+            
 
             function set_featured(){
                 const curr_commands = document.querySelectorAll('.panel_commands ul li');
@@ -136,8 +135,8 @@
                     
                     let new_pos = current_pos + movement; // calculate new position
                               
-                    console.log(movement);
-                    console.log(distance);
+                    // console.log(movement);
+                    // console.log(distance);
                     if (Math.abs(movement) >= Math.abs(distance)) {
                         new_pos = current_pos + distance;
                         clearInterval(interval_id);
@@ -157,7 +156,7 @@
             }
             
             
-            function draw(){                             
+            function loop(){                             
                 const curr_commands = document.querySelectorAll('.panel_commands ul li');
                 if (curr_commands){
                     const active_command_elem = curr_commands[active_command];
@@ -172,8 +171,8 @@
                                 // done
                                 
                                 const elem = active_command_elem;
-                                console.log(elem);
-                                console.log(elem.offsetHeight);
+                                // console.log(elem);
+                                // console.log(elem.offsetHeight);
                                 const total_height = elem.offsetHeight;
                                 active = false;                        
                                 move_up(- 1 * total_height);
@@ -196,17 +195,17 @@
                     }                    
                 }  
             
-                          
-                if (!paused) requestAnimationFrame(draw);
+                console.log(paused);
+                console.log(Date.now());
+                                     
+                if (!paused) requestAnimationFrame(loop);
             }
             // keypress on space key
             document.addEventListener('keypress', function(e){
-                if (e.keyCode == 32){
+                if (e.keyCode == 32){                    
                     paused = !paused;
-                    if (!paused) requestAnimationFrame(draw);
-                    command_start = Date.now();
-                    // add is-paused class to body
-              //      document.body.classList.toggle('is-paused', paused);
+                    if (!paused) requestAnimationFrame(loop);
+                    command_start = Date.now();              
                 }
             })
 
