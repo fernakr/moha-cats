@@ -264,18 +264,29 @@
             }
                 
             
-            .panel{
-                display: flex;
+            
+            .panel{                
                 width: 100%;
                 
             }
-            .panel_commands{
-                width: 60vw;
+            .panel_commands{                
                 height: 90vh;
                 overflow: scroll;
                 background-color: black;
                 color: white;                            
                                              
+            }
+            @media screen and (min-width: 600px){
+                .panel{
+                    display: flex;
+                }
+                .panel_commands{
+                    width: 60vw;
+                }
+                .panel_buttons{
+                    width: 40vw;
+                    display: grid;                            
+                }
             }
                 
 
@@ -306,15 +317,15 @@
                     mix-blend-mode: difference;
                 }
          
-            .panel_buttons{
-                width: 40vw;
-                display: grid;                            
-            }
+
             button{
                 border-width: 10px;    
                 font-size: 8vh;
+                padding: 10px;
                 cursor: pointer;
                 line-height: 0.9;
+                display: block;
+                width: 100%;
             }
                 button small{
                     opacity: 0.5;
