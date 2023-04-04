@@ -1,5 +1,3 @@
-
-
 let apiKey = "DpGm8WlhgYSGsSj4CgSknHS8EWx2QnRt";
 
 let videos = [];

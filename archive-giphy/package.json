@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "p5.js sketch",
   "main": "sketch.js",
-  "mode": "development",
   "scripts": {
-    "start": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Felipe Custódio",
@@ -21,14 +19,6 @@
     "stylelint": "^13.8.0"
   },
   "dependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "babel-loader": "^9.1.2",
-    "browser-sync": "^2.29.1",
-    "gulp": "^4.0.2",
-    "gulp-concat": "^2.6.1",
-    "p5-global2instance": "^0.9.0",
-    "webpack": "^5.77.0",
-    "webpack-stream": "^7.0.0"
+    "p5-global2instance": "^0.9.0"
   }
 }
