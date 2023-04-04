@@ -7,8 +7,9 @@ let sketch = function(p){
   let duration = urlParams.get('duration') || 1; // minutes
   let incrementBase;
   
+  const padding = 20;
   p.setup = () => {    
-    p.createCanvas(p.windowWidth, p.windowHeight);    
+    p.createCanvas(p.windowWidth - 2 * padding, p.windowHeight - 2 * padding);    
     incrementBase = p.width / (duration * 60 * 60);
   }
   
@@ -41,7 +42,7 @@ let sketch = function(p){
   
   // when window is resized
   p.windowResized = () => {
-    p.resizeCanvas(p.windowWidth, p.windowHeight);
+    p.resizeCanvas(p.windowWidth  - 2 * padding, p.windowHeight - 2 * padding);
   }
   
   p.draw = () => {          

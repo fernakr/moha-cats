@@ -1,0 +1,10 @@
+canvas{
+    border-radius: 100px;
+    overflow: hidden;
+    border: 2px solid white;
+    box-sizing: border-box;
+}
+    .progress_wrapper{
+        padding: 10px 20px;
+        background-color: gray;        
+    }
