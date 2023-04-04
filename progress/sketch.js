@@ -9,7 +9,7 @@ let sketch = function(p){
   
   const padding = 20;
   p.setup = () => {    
-    p.createCanvas(p.windowWidth - 2 * padding, p.windowHeight - 2 * padding);    
+    p.createCanvas(p.windowWidth - 2 * padding, p.windowHeight - padding);    
     incrementBase = p.width / (duration * 60 * 60);
   }
   
@@ -87,7 +87,7 @@ let sketch = function(p){
   
   
   
-    p.background(0);
+    p.background('gray');
     p.fill('green');
   
     p.rect(0, 0, progress, p.height);
