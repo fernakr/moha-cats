@@ -24,7 +24,7 @@ function setup() {
 
 }
 
-let duration = 1000, currTime = 0;
+let duration = 400, currTime = 0;
 let offset = 0, limit = 15;
 let objectLimit = 30;
 
@@ -48,9 +48,17 @@ function draw(){
     const objectEl = object.elt;
     const x = objectEl.getAttribute('data-x');
     const y = objectEl.getAttribute('data-y');
+    const objectWidth = objectEl.width;
+    const objectHeight = objectEl.height;
+
     object.position(
       object.x + sin(millis() * .0001 + PI * noise(x, y)), 
       object.y + sin(millis() * .0002 + PI * noise(x, y)));
+      if (object.x > width || object.x < 0 - objectWidth || object.y > height || object.y < 0 - objectHeight){
+        object.remove();
+        objects.splice(i, 1);
+        setupObjects([objectData.objects.sort(() => 0.5 - Math.random())[0]])
+      }
   }
 
 
