@@ -67,18 +67,20 @@
             buttons.forEach(function(button){
                 button.addEventListener('click', function(){
 
-                    const name = button.getAttribute('data-action-name');
-                    const duration = button.getAttribute('data-action-duration');
-                    const color = button.getAttribute('data-action-color');
-                    commands.push(name);                    
-                    update_commands({ 
-                        name,
-                        duration,
-                        color
-                    });          
-                    // lose focus
-                    button.blur();          
-                    if (!command_start) command_start = Date.now()
+                    setTimeout(function(){
+                        const name = button.getAttribute('data-action-name');
+                        const duration = button.getAttribute('data-action-duration');
+                        const color = button.getAttribute('data-action-color');
+                        commands.push(name);                    
+                        update_commands({ 
+                            name,
+                            duration,
+                            color
+                        });          
+                        // lose focus
+                        button.blur();          
+                        if (!command_start) command_start = Date.now() + 500
+                    }, 250);                 
                 })
             })
 
