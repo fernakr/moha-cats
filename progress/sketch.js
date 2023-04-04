@@ -22,11 +22,11 @@ let sketch = function(p){
   p.keyPressed = () => {
     if (p.keyCode === 32){
       p5Paused = !p5Paused;
-      if (p5Paused){
-        p.noLoop();
-      } else {
-        p.loop();
-      }
+      // if (p5Paused){
+      //   p.noLoop();
+      // } else {
+      //   p.loop();
+      // }
       // add class to body
       document.body.classList.toggle('is-paused', p5Paused);
     }
