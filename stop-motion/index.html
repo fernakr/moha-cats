@@ -356,14 +356,17 @@
          
 
             button{
-                border-width: 10px;    
+                border: 10px solid gray;    
                 font-size: 8vh;
                 padding: 10px;
                 cursor: pointer;
-                line-height: 0.8;
+                line-height: 0.8;                
                 display: block;
                 width: 100%;
             }
+                button:not(:last-child){
+                    border-bottom: 0;
+                }
                 button small{
                     opacity: 0.5;
                     margin-top: 15px;

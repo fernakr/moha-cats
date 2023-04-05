@@ -105,6 +105,7 @@ let sketch = function(p){
   
     p.background('gray');
     p.fill('green');
+    p.stroke('#333');
     p.translate(-p.width/2, -p.height/2);
     p.rect(0, 0, progress, p.height);
   //  const timeElapsed = Date.now() - timeStart;
@@ -116,8 +117,7 @@ let sketch = function(p){
     
     if (progress >= p.width){
       if (document.body.classList.contains('has-glitch')){
-        glitch = true;
-        
+        glitch = true;        
        
       }else{
         p.noLoop();
@@ -153,10 +153,10 @@ let sketch = function(p){
         
         glitchOffset++;
         if (glitchOffset === 2){
-          glitchOffset += 40;
+          //glitchOffset += 40;
           document.body.classList.add('is-glitching');        
         }
-        if (glitchOffset >= 300){
+        if (glitchOffset >= 700){
           document.body.classList.add('is-finished');  
           p.noLoop();                
         }else{

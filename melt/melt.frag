@@ -15,7 +15,7 @@ precision mediump float;
     vec4 color = texture2D(u_tex0, uv);
     
     // Calculate offset for drip effect
-    float offset = sin(u_time * 5.0 + uv.y * 100.0) * u_offset * .0001;
+    float offset = sin(u_time * 5.0 + uv.y * 100.0) * u_offset * .00007;
     
     // Apply offset to texture coordinates
     vec2 texCoord = uv + vec2(0.0, offset);
