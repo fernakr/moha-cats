@@ -110,19 +110,20 @@ function setupObjects(items) {
     
     const fileExt = item.split('.').pop();
     let object;
-    //console.log(fileExt);
+    let type;
     switch(fileExt){
       
       case 'mp4':
-        object = createVideo(item);
-        object.volume(0);   
-        object.loop();         
+        object = createVideo(item);                
+        type = 'video';
         break;
       case 'jpg':        
         object = createImg(item, 'image');        
+        type = 'image';
         break;
       case 'png':        
         object = createImg(item, 'image');        
+        type = 'image';
         break;        
     }
 
@@ -137,8 +138,14 @@ function setupObjects(items) {
     objectEl.setAttribute('data-x', x);
     objectEl.setAttribute('data-y', y);
     const size = random(map(x, width * 2/5, width, 70, 300), map(x, width * 2/5, width, 100, 400));    
-    // console.log(size);
-    // console.log(x);
+    if (type === 'video') {
+      objectEl.muted = true;
+      objectEl.autoplay = true;
+      objectEl.setAttribute('muted',true);
+      objectEl.setAttribute('autoplay',true);
+      object.volume(0);   
+      object.loop(); 
+    }
     object.size(size, size);
     //console.log(object);
     objects.push(object);
