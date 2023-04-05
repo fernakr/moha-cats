@@ -3,7 +3,7 @@
         <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
         <link rel="stylesheet" href="../progress/styles.css">
     </head>
-    <body class="is-paused">        
+    <body class="is-paused has-glitch">        
         <main>
             <div id="main" class="progress_wrapper">
                 <h2>Progress:</h2>
@@ -254,6 +254,36 @@
                     align-items: center;
                     justify-content: center;
 
+                }
+
+                body.is-glitching canvas{
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    max-height: none !important;
+                    border-radius: 0;
+                    border: none;
+                    width: 100% !important;
+                    height: 100% !important;
+                    z-index: 2;
+                }
+                body.is-glitching .progress_wrapper{
+                    padding: 0;
+                }
+                body.is-finished:before{
+                    content: 'DISCONNECTED';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #000;
+                    color: white;
+                    font-size: 10vh;
+                    z-index: 3;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
 
             main{

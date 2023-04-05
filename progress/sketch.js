@@ -1,6 +1,7 @@
 let sketch = function(p){
 
   let progress = 0;
+  
 
   // get duration from query string
   let urlParams = new URLSearchParams(window.location.search);
@@ -8,9 +9,17 @@ let sketch = function(p){
   let incrementBase;
   let timeElapsed = 0;
   
+  let glitch;
+  let glitchOffset = 0;
   const padding = 20;
+
+  let finishedImage, shader;
+  p.preload = () => {
+    finishedImage = p.loadImage('../melt/screen.png');
+    shader = p.loadShader('../melt/melt.vert', '../melt/melt.frag');
+  }
   p.setup = () => {    
-    p.createCanvas(p.windowWidth - 2 * padding, p.windowHeight - padding);    
+    p.createCanvas(p.windowWidth - 2 * padding, p.windowHeight - padding, p.WEBGL);    
     incrementBase = p.width / (duration * 60 * 60);
   }
   
@@ -95,7 +104,7 @@ let sketch = function(p){
   
     p.background('gray');
     p.fill('green');
-  
+    p.translate(-p.width/2, -p.height/2);
     p.rect(0, 0, progress, p.height);
   //  const timeElapsed = Date.now() - timeStart;
   
@@ -103,8 +112,31 @@ let sketch = function(p){
     // textSize(100);
     // text(timeElapsed/ 1000, width/2, height/2);
   
+    
     if (progress >= p.width){
-      p.noLoop();
+      if (document.body.classList.contains('has-glitch')){
+        glitch = true;
+        document.body.classList.add('is-glitching');        
+       
+      }else{
+        p.noLoop();
+      }
+      
+    }
+    if (glitch){
+      
+      glitchOffset++;
+      if (glitchOffset >= 300){
+        document.body.classList.add('is-finished');  
+        p.noLoop();                
+      }else{
+        shader.setUniform('u_resolution', [p.width, p.height]);
+        shader.setUniform('u_time', p.millis());
+        shader.setUniform('u_tex0', finishedImage);
+        shader.setUniform('u_offset', glitchOffset);
+        p.shader(shader);        
+        p.rect(0,0,p.width, p.height); 
+      }
     }
   }
 }
