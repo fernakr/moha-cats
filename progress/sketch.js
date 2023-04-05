@@ -11,6 +11,7 @@ let sketch = function(p){
   
   let glitch;
   let glitchOffset = 0;
+  let glitchImage = false, glitchTexture = false;
   const padding = 20;
 
   let finishedImage, shader;
@@ -116,7 +117,7 @@ let sketch = function(p){
     if (progress >= p.width){
       if (document.body.classList.contains('has-glitch')){
         glitch = true;
-        document.body.classList.add('is-glitching');        
+        
        
       }else{
         p.noLoop();
@@ -124,18 +125,51 @@ let sketch = function(p){
       
     }
     if (glitch){
-      
-      glitchOffset++;
-      if (glitchOffset >= 300){
-        document.body.classList.add('is-finished');  
-        p.noLoop();                
+      if (!glitchImage){
+        p.background('green');
+        html2canvas(document.body).then(function(canvas) {
+          // Create an image element from the canvas
+          //console.log(canvas);
+          //glitchImage = ;          
+          p.loadImage(canvas.toDataURL('image/png'), (image => {
+            glitchImage = image;
+            //p.background('green');
+          }));
+          
+          //glitchTexture.image(glitchImage, 0, 0);
+          //console.log('text',glitchTexture);
+
+          // document.body.appendChild(glitchImage);
+          // // Create a download link and trigger download
+          // var link = document.createElement('a');
+          // link.href = img.src;
+          // link.download = 'screenshot.png';
+          // document.body.appendChild(link);
+          // link.click();
+          // document.body.removeChild(link);
+        });
       }else{
-        shader.setUniform('u_resolution', [p.width, p.height]);
-        shader.setUniform('u_time', p.millis());
-        shader.setUniform('u_tex0', finishedImage);
-        shader.setUniform('u_offset', glitchOffset);
-        p.shader(shader);        
-        p.rect(0,0,p.width, p.height); 
+      
+        
+        glitchOffset++;
+        if (glitchOffset === 2){
+          glitchOffset += 40;
+          document.body.classList.add('is-glitching');        
+        }
+        if (glitchOffset >= 300){
+          document.body.classList.add('is-finished');  
+          p.noLoop();                
+        }else{
+          //console.log(glitchImage);
+          shader.setUniform('u_resolution', [p.width, p.height]);
+          shader.setUniform('u_time', p.millis());
+          shader.setUniform('u_tex0', glitchImage);
+          shader.setUniform('u_offset', glitchOffset);
+          p.shader(shader);        
+          p.rect(0,0,p.width, p.height); 
+        }
+        
+      
       }
     }
   }

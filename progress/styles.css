@@ -3,6 +3,7 @@ canvas{
     overflow: hidden;
     border: 2px inset #fff;
     box-sizing: border-box;
+    background-color: green;
 }
     .progress_wrapper{
         padding: 10px 20px;
