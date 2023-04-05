@@ -356,16 +356,23 @@
          
 
             button{
-                border: 10px solid gray;    
+                border: 10px solid #999;    
                 font-size: 8vh;
                 padding: 10px;
                 cursor: pointer;
                 line-height: 0.8;                
                 display: block;
                 width: 100%;
+                border-right-color: #666;
+                border-bottom-color: #666;
             }
-                button:not(:last-child){
-                    border-bottom: 0;
+                /* button:not(:last-child){
+                    //border-bottom: 0;
+                } */
+                button:active{
+                    border-color: #666;
+                    border-right-color: #999;
+                    border-bottom-color: #999;
                 }
                 button small{
                     opacity: 0.5;

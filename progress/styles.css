@@ -1,9 +1,11 @@
 canvas{
     border-radius: 30px;
     overflow: hidden;
-    border: 2px solid #ccc;
+    border: 2px solid #BBB;
     box-sizing: border-box;
     background-color: green;
+    border-right-color: #999;
+    border-bottom-color: #999;
 }
     .progress_wrapper{
         padding: 10px 20px;
