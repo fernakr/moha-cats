@@ -126,7 +126,7 @@ let sketch = function(p){
     }
     if (glitch){
       if (!glitchImage){
-        p.background('green');
+        //p.background('green');
         html2canvas(document.body).then(function(canvas) {
           // Create an image element from the canvas
           //console.log(canvas);
@@ -150,13 +150,16 @@ let sketch = function(p){
         });
       }else{
       
-        
-        glitchOffset++;
-        if (glitchOffset === 2){
-          //glitchOffset += 40;
-          document.body.classList.add('is-glitching');        
+        const increment = 1;
+        glitchOffset+= increment;
+        if (glitchOffset === 2){          
+          document.body.classList.add('is-glitching');                
         }
-        if (glitchOffset >= 700){
+        if (glitchOffset > 300){
+          glitchOffset += 40;
+        }
+
+        if (glitchOffset >= 3500){
           document.body.classList.add('is-finished');  
           p.noLoop();                
         }else{
