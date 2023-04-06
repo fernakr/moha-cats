@@ -30,8 +30,10 @@ let sketch = function(p){
   let first = true;  
   let p5Paused = true;
   
-  p.touchStarted = () => {
-    if (p5Paused) p5Paused = false;
+  p.touchStarted = (e) => {
+    //console.log(e.touches);
+    if (p5Paused && e.touches.length) p5Paused = false;
+    document.body.classList.toggle('is-paused', p5Paused);
   }
   p.keyPressed = () => {
     if (p.keyCode === 32){
