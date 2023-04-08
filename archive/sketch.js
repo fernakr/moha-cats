@@ -18,46 +18,72 @@ function preload(){
 
 
 function setup() {
+  objectData = objectData.objects;
+  
+  let videos = objectData.filter(item => {    
+    const fileExt = item.split('.').pop().toLowerCase();
+    return fileExt === 'mov' || fileExt === 'mp4';
+  });
+
+  videos = videos.map(item => ({
+    type: 'video',
+    src: item
+  }));
+
+
+
+  let images = objectData.filter(item => {
+    const fileExt = item.split('.').pop().toLowerCase();
+    return fileExt === 'jpg' || fileExt === 'jpeg' || fileExt === 'png';
+  });
+
+  images = images.map(item => ({
+    type: 'image',
+    src: item
+  }));
+
+  objectData = [...videos, ...images];
+
   createCanvas(windowWidth, windowHeight);
-  setupObjects(objectData.objects);
+  setupObjects(objectData);
   //getGiphyData();
 
 }
 
-let duration = 400, currTime = 0;
-let offset = 0, limit = 15;
-let objectLimit = 30;
+//let duration = 400, currTime = 0;
+//let offset = 0, limit = 15;
+//let objectLimit = 20;
 
 
 
 function draw(){  
-  currTime++;  
-  //console.log(objects);
-  if (currTime > duration){    
-    currTime = 0;
-    setupObjects(objectData.objects);
-  }  
-  if (objects.length > objectLimit){
-    for (let i = 0; i < objects.length - objectLimit; i++){
-      objects[i].remove();
-      objects.splice(i, 1);
-    }
-  }
+  // currTime++;    
+  // if (currTime > duration){    
+  //   currTime = 0;        
+  //   //setupObjects(objectData);
+  // }  
+  // if (objects.length > objectLimit){
+  //   for (let i = 0; i < objects.length - objectLimit; i++){
+  //     objects[i].elt.remove();
+  //     objects.splice(i, 1);
+  //   }
+  // }
+
   for (let i = 0; i < objects.length; i++){
     const object = objects[i];
     const objectEl = object.elt;
     const x = objectEl.getAttribute('data-x');
     const y = objectEl.getAttribute('data-y');
+    const objectType = objectEl.getAttribute('data-type');
     const objectWidth = objectEl.width;
-    const objectHeight = objectEl.height;
-
+    const objectHeight = objectEl.height;    
     object.position(
       object.x + sin(millis() * .0001 + PI * noise(x, y)), 
       object.y + sin(millis() * .0002 + PI * noise(x, y)));
       if (object.x > width || object.x < 0 - objectWidth || object.y > height || object.y < 0 - objectHeight){
-        object.remove();
-        objects.splice(i, 1);
-        setupObjects([objectData.objects.sort(() => 0.5 - Math.random())[0]])
+        object.elt.remove();
+        objects.splice(i, 1);        
+        setupObjects([objectData.filter(object => object.type === objectType).sort(() => 0.5 - Math.random())[0]])
       }
   }
 
@@ -100,58 +126,51 @@ function randomPosition() {
 let currHeight = 0;
 
 function setupObjects(items) {  
-  //console.log(data);
-  // randomize sort
+//  console.log(items);
+  
+
+
+  let videos = items.filter(item => item.type === 'video');
+  let images = items.filter(item => item.type === 'image');
+
+  // grab 3 videos and 3 images
+  items = videos.slice(0, 3).concat(images.slice(0, 20));  
+
   items.sort(() => 0.5 - Math.random());
-  items.forEach(item => {
-
-    // distribute objects across the screen but more concetrated to the right
-
-    
-    const fileExt = item.split('.').pop();
-    let object;
-    let type;
-    switch(fileExt){
-      
-      case 'mp4':
-        object = createVideo(item);                
-        type = 'video';
-        break;
-      case 'jpg':        
-        object = createImg(item, 'image');        
-        type = 'image';
-        break;
-      case 'png':        
-        object = createImg(item, 'image');        
-        type = 'image';
-        break;        
-    }
-
-    //console.log(object);
+  //console.log(items);
+  
+  items.forEach(item => {        
     const x = randomPosition();
-   
+    let object;
     currHeight += height/items.length;
     if (currHeight > height) currHeight = 0;
-    const y = currHeight;    
-    object.position(x, y);
-    const objectEl = object.elt;
-    objectEl.setAttribute('data-x', x);
-    objectEl.setAttribute('data-y', y);
-    const size = random(map(x, width * 2/5, width, 70, 300), map(x, width * 2/5, width, 100, 400));    
-    if (type === 'video') {
+    const y = currHeight;       
+    
+    
+    if (item.type === 'video') {
+      object = createVideo(item.src);;
+      objectEl = object.elt;
       objectEl.muted = true;
       objectEl.autoplay = true;
       objectEl.setAttribute('muted',true);
       objectEl.setAttribute('autoplay',true);
       object.volume(0);   
-      object.loop(); 
+      object.loop();       
+    }else{
+      object = createImg(item.src);
+      objectEl = object.elt;
     }
-    object.size(size, size);
-    //console.log(object);
+
+    
+    
+    objectEl.setAttribute('data-x', x);
+    objectEl.setAttribute('data-y', y);
+    objectEl.setAttribute('data-type', item.type);
+    const size = random(map(x, width * 2/5, width, 70, 300), map(x, width * 2/5, width, 100, 400));    
+
+    object.position(x, y);
+    object.size(size, size);    
     objects.push(object);
     
-    // const objectEl = object.elt;
-    // objectEl.setAttribute('data-x', x);
-    // objectEl.setAttribute('data-y', y);
   });
 }
