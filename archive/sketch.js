@@ -9,13 +9,14 @@ let currHeight = 0;
 
 //const apiRoot = 'http://localhost:2000';
 const apiRoot = 'https://moha-cats.herokuapp.com';
-
-
+let chairImage;
+let chair;
 
 
 function preload(){
   objectData = loadJSON(apiRoot + '/download');
   
+  chairImage = loadImage('./berry-chair.png');
 }
 
 
@@ -48,6 +49,7 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight);
   setupObjects();  
+  chair = new BerryChair();
 }
 
 
@@ -57,13 +59,69 @@ const videoLimit = 5;
 const imageLimit = 20;
 
 
-let backgroundImage = document.createElement('img');
-document.body.appendChild(backgroundImage);
-function draw(){    
+class BerryChair{
+  constructor(props){
+    this.x = width;
+    this.y = 100;    
+    this.flip = false;
+    this.timer = 0;
+    this.active = true;
+  }  
+
+  draw(){
+    this.timer++;
+
+    if (this.timer > 8000){
+      this.active = !this.active;
+    }
+    if (this.active){
+      background(255,200);
+      const xIncrement = this.flip ? 10 : -10;
+      this.x = this.x + xIncrement;
+      this.y = this.y + 1;
+      
+      translate(this.x, this.y);
+      push();
+      
+      // Scale -1, 1 means reverse the x axis, keep y the same.
+      if (this.flip){            
+        scale(-1, 1);
+      }
+      this.img = image(chairImage, 0, 0, chairImage.width, chairImage.height);
+      
+      pop();
+      
+      // flip image
+      
+  
+  
+      if (this.x < width/2 - chairImage.width){
+        this.flip = true;
+        this.x += 300;
+  
+      }
+      if (this.x > width && this.flip){
+        this.flip = false;
+        this.x = width - 300;
+      }
+      if (this.y > height){
+        this.y = - chairImage.height;
+      }
+    }    
+  }
+}
+
+function draw(){ 
+    
+  if (chair){
+    chair.draw();
+  }
+
+  
   currTime++;    
   if (currTime > duration){    
     currTime = 0;        
-    //setupObjects(null, 1);
+    
   }  
   //const items = [...videos, ...images];
   if (videos.length > videoLimit){
