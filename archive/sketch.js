@@ -155,8 +155,8 @@ function setupObjects(type, limit) {
     }    
   }else{
 
-    const videoLimit = limit ? floor(limit * 1/3) : 5;
-    const imageLimit = limit ? floor(limit * 2/3) : 10;
+    const videoLimit = limit ? floor(limit * 1/3) : 3;
+    const imageLimit = limit ? floor(limit * 2/3) : 15;
     newVideos = videoData.slice(0, videoLimit);
     newImages = imageData.slice(0, imageLimit);
   }
@@ -175,6 +175,8 @@ function setupObjects(type, limit) {
     objectEl.setAttribute('data-type', object.type);
     const size = random(map(x, width * 2/5, width, 70, 300), map(x, width * 2/5, width, 100, 300));    
 
+    // const opacity = map(random, 0, 1, 0.5, 1)
+    // objectEl.style.opacity(opacity);
     object.position(x, y);
     object.size(size, size);    
   }
