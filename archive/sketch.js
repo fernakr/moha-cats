@@ -53,7 +53,7 @@ function setup() {
 let duration = 300, currTime = 0;
 let offset = 0, limit = 15;
 const videoLimit = 5;
-const imageLimit = 30;
+const imageLimit = 20;
 
 
 let backgroundImage = document.createElement('img');
