@@ -53,7 +53,7 @@ function setup() {
 let duration = 300, currTime = 0;
 let offset = 0, limit = 15;
 const videoLimit = 5;
-const imageLimit = 20;
+const imageLimit = 15;
 
 
 let backgroundImage = document.createElement('img');
@@ -62,7 +62,7 @@ function draw(){
   currTime++;    
   if (currTime > duration){    
     currTime = 0;        
-    setupObjects(null, 5);
+    setupObjects(null, 3);
   }  
   //const items = [...videos, ...images];
   if (videos.length > videoLimit){
@@ -173,7 +173,7 @@ function setupObjects(type, limit) {
     objectEl.setAttribute('data-x', x);
     objectEl.setAttribute('data-y', y);
     objectEl.setAttribute('data-type', object.type);
-    const size = random(map(x, width * 2/5, width, 70, 300), map(x, width * 2/5, width, 100, 300));    
+    const size = random(map(x, width * 2/5, width, 70, 200), map(x, width * 2/5, width, 100, 200));    
 
     // const opacity = map(random, 0, 1, 0.5, 1)
     // objectEl.style.opacity(opacity);
