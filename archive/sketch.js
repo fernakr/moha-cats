@@ -60,7 +60,10 @@ const imageLimit = 20;
 
 
 class BerryChair{
-  constructor(props){
+  constructor(){
+    const randomFactor = random();
+    this.width = map(randomFactor, 0, 1, chairImage.width/3, chairImage.width);    
+    this.height = map(randomFactor, 0, 1, chairImage.height/3, chairImage.height);    
     this.x = width;
     this.y = 100;    
     this.flip = false;
@@ -87,7 +90,7 @@ class BerryChair{
       if (this.flip){            
         scale(-1, 1);
       }
-      this.img = image(chairImage, 0, 0, chairImage.width, chairImage.height);
+      this.img = image(chairImage, 0, 0, this.width, this.height);
       
       pop();
       
@@ -263,7 +266,7 @@ function setupObjects(type, limit) {
     objectEl.setAttribute('data-x', x);
     objectEl.setAttribute('data-y', y);
     objectEl.setAttribute('data-type', type);
-    const size = random(map(x, width * 2/5, width, 70, 200), map(x, width * 2/5, width, 130, 270));    
+    const size = random(map(x, width * 2/5, width, windowWidth/10, windowWidth/6), map(x, width * 2/5, width, windowHeight/20, windowHeight/6));    
 
     // const opacity = map(random, 0, 1, 0.5, 1)
     // objectEl.style.opacity(opacity);
