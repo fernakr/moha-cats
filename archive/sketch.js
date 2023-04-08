@@ -52,7 +52,8 @@ function setup() {
 
 let duration = 300, currTime = 0;
 let offset = 0, limit = 15;
-let objectLimit = 30;
+const videoLimit = 5;
+const imageLimit = 30;
 
 
 let backgroundImage = document.createElement('img');
@@ -63,16 +64,18 @@ function draw(){
     currTime = 0;        
     setupObjects(null, 5);
   }  
-  const items = [...videos, ...images];
-  if (items.length > objectLimit){
-    for (let i = 0; i < 1; i++){
+  //const items = [...videos, ...images];
+  if (videos.length > videoLimit){
+    for (let i = 0; i < videoLimit - videos.length; i++){
       const video = videos[i];
       if (video){
         video.elt.remove();
         videos.splice(i, 1);
       }      
     }
-    for (let i = 0; i < 5; i++){
+  }
+  if (images.length > imageLimit){
+    for (let i = 0; i < imageLimit - images.length; i++){
       const image = images[i];
       if (image){
         image.elt.remove();
