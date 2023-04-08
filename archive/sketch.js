@@ -50,18 +50,19 @@ function setup() {
 }
 
 
-let duration = 1000, currTime = 0;
+let duration = 300, currTime = 0;
 let offset = 0, limit = 15;
-let objectLimit = 40;
+let objectLimit = 30;
 
 
-
+let backgroundImage = document.createElement('img');
+document.body.appendChild(backgroundImage);
 function draw(){    
   currTime++;    
-  // if (currTime > duration){    
-  //   currTime = 0;        
-  //   setupObjects();
-  // }  
+  if (currTime > duration){    
+    currTime = 0;        
+    setupObjects(null, 5);
+  }  
   const items = [...videos, ...images];
   if (items.length > objectLimit){
     for (let i = 0; i < 1; i++){
@@ -112,7 +113,7 @@ function draw(){
 
 function randomPosition() {
   // Set the maximum range of positions
-  let maxPosition = width + 1/5;
+  let maxPosition = width;
   let minPosition = width * 2/5;
   
   // Set the probability factor for the right side
@@ -135,9 +136,9 @@ let currHeight = 0;
 
 
 
-function setupObjects(type) {    
+function setupObjects(type, limit) {    
 
-  console.log(type);
+  //console.log(type);
   let newImages = [], newVideos = [];
   videoData = videoData.sort(() => 0.5 - Math.random());
   imageData = imageData.sort(() => 0.5 - Math.random());
@@ -150,8 +151,11 @@ function setupObjects(type) {
       newImages = [imageData[0]];    
     }    
   }else{
-    newVideos = videoData.slice(0, 5);
-    newImages = imageData.slice(0, 10);
+
+    const videoLimit = limit ? floor(limit * 1/3) : 5;
+    const imageLimit = limit ? floor(limit * 2/3) : 10;
+    newVideos = videoData.slice(0, videoLimit);
+    newImages = imageData.slice(0, imageLimit);
   }
 
   const items = [...newImages, ...newVideos];
@@ -172,8 +176,8 @@ function setupObjects(type) {
     object.size(size, size);    
   }
 
-  console.log(newVideos);
-  console.log(newImages);
+  // console.log(newVideos);
+  // console.log(newImages);
   
   newVideos.forEach(videoData => {           
     const video = createVideo(videoData.src);;
