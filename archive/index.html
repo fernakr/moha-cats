@@ -31,9 +31,13 @@
           mix-blend-mode: darken;
           transition: 3s opacity;
           will-change: opacity;
+          opacity: 0.5;
         }
-        img:nth-child(even), video:nth-child(even){
+        img:nth-child(n + 10), video:nth-child(n + 10){
           opacity: 0.7;
+        }
+        img:nth-child(n + 20), video:nth-child(n + 20){
+          opacity: 1;
         }
     </style>
   </head>
