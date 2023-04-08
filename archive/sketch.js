@@ -168,7 +168,7 @@ function setupObjects(type, limit) {
 
   function positionObject(object){
     const x = randomPosition();    
-    currHeight += height/items.length;
+    currHeight += height/4;
     if (currHeight > height) currHeight = 0;
     const y = currHeight;       
     
