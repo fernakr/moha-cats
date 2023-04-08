@@ -2,6 +2,7 @@ let videos = [];
 let images = [];
 let videoData;
 let imageData;
+let currHeight = 0;
 
 // change API root url depending on build or dev
 //const apiRoot = process.env.NODE_ENV === 'development' ? 'http://localhost:2000' : 'https://moha-cats.herokuapp.com';
@@ -53,7 +54,7 @@ function setup() {
 let duration = 300, currTime = 0;
 let offset = 0, limit = 15;
 const videoLimit = 5;
-const imageLimit = 15;
+const imageLimit = 20;
 
 
 let backgroundImage = document.createElement('img');
@@ -62,7 +63,7 @@ function draw(){
   currTime++;    
   if (currTime > duration){    
     currTime = 0;        
-    setupObjects(null, 3);
+    //setupObjects(null, 1);
   }  
   //const items = [...videos, ...images];
   if (videos.length > videoLimit){
@@ -71,6 +72,7 @@ function draw(){
       if (video){
         video.elt.remove();
         videos.splice(i, 1);
+        setupObjects('video');
       }      
     }
   }
@@ -80,6 +82,7 @@ function draw(){
       if (image){
         image.elt.remove();
         images.splice(i, 1);
+        setupObjects('image');
       }      
     }    
   }
@@ -97,7 +100,7 @@ function draw(){
     object.position(
       object.x + sin(millis() * .0001 + PI * noise(x, y)), 
       object.y + sin(millis() * .0002 + PI * noise(x, y)));
-      if (object.x > width || object.x < 0 - objectWidth || object.y > height || object.y < 0 - objectHeight || object.x < width * 2/5){
+      if (object.x > width || object.x < 0 - objectWidth || object.y > height || object.y < 0 - objectHeight || object.x < width / 2 - objectWidth){
         object.elt.remove();
         objects.splice(i, 1);        
         setupObjects(type);
@@ -135,7 +138,7 @@ function randomPosition() {
 }
 
 
-let currHeight = 0;
+
 
 
 
@@ -155,8 +158,8 @@ function setupObjects(type, limit) {
     }    
   }else{
 
-    const videoLimit = limit ? floor(limit * 1/3) : 3;
-    const imageLimit = limit ? floor(limit * 2/3) : 15;
+    const videoLimit = limit ? floor(limit * 1/3) : 5;
+    const imageLimit = limit ? floor(limit * 2/3) : 20;
     newVideos = videoData.slice(0, videoLimit);
     newImages = imageData.slice(0, imageLimit);
   }
@@ -173,7 +176,7 @@ function setupObjects(type, limit) {
     objectEl.setAttribute('data-x', x);
     objectEl.setAttribute('data-y', y);
     objectEl.setAttribute('data-type', object.type);
-    const size = random(map(x, width * 2/5, width, 70, 200), map(x, width * 2/5, width, 100, 200));    
+    const size = random(map(x, width * 2/5, width, 70, 200), map(x, width * 2/5, width, 130, 270));    
 
     // const opacity = map(random, 0, 1, 0.5, 1)
     // objectEl.style.opacity(opacity);
