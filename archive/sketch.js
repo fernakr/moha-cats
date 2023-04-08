@@ -87,7 +87,7 @@ function draw(){
     }    
   }
 
-  const drawObject = (objects, i,  type) => {    
+  const drawObject = (objects, i) => {    
     const object = objects[i];
     const objectEl = object.elt;
     const x = objectEl.getAttribute('data-x');
@@ -96,22 +96,50 @@ function draw(){
     const objectHeight = objectEl.height;    
     
     
-  
+    // toggle class     
+    objectEl.classList.add('is-active');
+
     object.position(
       object.x + sin(millis() * .0001 + PI * noise(x, y)), 
       object.y + sin(millis() * .0002 + PI * noise(x, y)));
       if (object.x > width || object.x < 0 - objectWidth || object.y > height || object.y < 0 - objectHeight || object.x < width / 2 - objectWidth){
-        object.elt.remove();
-        objects.splice(i, 1);        
-        setupObjects(type);
+        objectEl.classList.remove('is-active');
+        objectEl.setAttribute('data-death', 1);
+        //objectEl.remove();        
       }
   }
 
   for (let i = 0; i < videos.length; i++){
-    drawObject(videos, i, 'video')
+    drawObject(videos, i)
   }
   for (let i = 0; i < images.length; i++){
-    drawObject(images, i,  'image')
+    drawObject(images, i)
+  }
+
+  const dying = document.querySelectorAll('[data-death]');
+  const deathDuration = 50;
+  if (dying.length > 0){       
+    dying.forEach(item => {
+
+      console.log(item.getAttribute('data-death'));
+      let deathTime = parseInt(item.getAttribute('data-death'));
+      //console.log(deathTime);
+      // console.log(deathTime);
+      // console.log(deathDuration);
+      const type = item.getAttribute('data-type');
+      if (deathTime < deathDuration){
+        deathTime+= 1;
+        console.log(deathTime);
+        item.setAttribute('data-death', deathTime);
+      }else{    
+        const objects = type === 'video' ? videos : images;  
+        const findIndex = objects.findIndex(obj => obj.elt === item);  
+        
+        objects.splice(findIndex, 1);                       
+        item.remove();
+        setupObjects(type);
+      }
+    })
   }
 
 
@@ -164,9 +192,8 @@ function setupObjects(type, limit) {
     newImages = imageData.slice(0, imageLimit);
   }
 
-  const items = [...newImages, ...newVideos];
 
-  function positionObject(object){
+  function positionObject(object, type){
     const x = randomPosition();    
     currHeight += height/4;
     if (currHeight > height) currHeight = 0;
@@ -175,7 +202,7 @@ function setupObjects(type, limit) {
     
     objectEl.setAttribute('data-x', x);
     objectEl.setAttribute('data-y', y);
-    objectEl.setAttribute('data-type', object.type);
+    objectEl.setAttribute('data-type', type);
     const size = random(map(x, width * 2/5, width, 70, 200), map(x, width * 2/5, width, 130, 270));    
 
     // const opacity = map(random, 0, 1, 0.5, 1)
@@ -196,14 +223,14 @@ function setupObjects(type, limit) {
     objectEl.setAttribute('autoplay',true);
     video.volume(0);   
     video.loop();       
-    positionObject(video);
+    positionObject(video, 'video');
     videos.push(video);
     
   });
   newImages.forEach(imageData => {
     const image = createImg(imageData.src);
     objectEl = image.elt;
-    positionObject(image);
+    positionObject(image, 'image');
     images.push(image)
   });
 
