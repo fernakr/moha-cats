@@ -1,5 +1,7 @@
-let objects = [];
-let objectData;
+let videos = [];
+let images = [];
+let videoData;
+let imageData;
 
 // change API root url depending on build or dev
 //const apiRoot = process.env.NODE_ENV === 'development' ? 'http://localhost:2000' : 'https://moha-cats.herokuapp.com';
@@ -20,71 +22,89 @@ function preload(){
 function setup() {
   objectData = objectData.objects;
   
-  let videos = objectData.filter(item => {    
+  videoData = objectData.filter(item => {    
     const fileExt = item.split('.').pop().toLowerCase();
     return fileExt === 'mov' || fileExt === 'mp4';
   });
 
-  videos = videos.map(item => ({
+  videoData = videoData.map(item => ({
     type: 'video',
     src: item
   }));
 
 
 
-  let images = objectData.filter(item => {
+  imageData = objectData.filter(item => {
     const fileExt = item.split('.').pop().toLowerCase();
     return fileExt === 'jpg' || fileExt === 'jpeg' || fileExt === 'png';
   });
 
-  images = images.map(item => ({
+  imageData = imageData.map(item => ({
     type: 'image',
     src: item
   }));
-
-  objectData = [...videos, ...images];
+  
 
   createCanvas(windowWidth, windowHeight);
-  setupObjects(objectData);
-  //getGiphyData();
-
+  setupObjects();  
 }
 
-//let duration = 400, currTime = 0;
-//let offset = 0, limit = 15;
-//let objectLimit = 20;
+
+let duration = 1000, currTime = 0;
+let offset = 0, limit = 15;
+let objectLimit = 40;
 
 
 
-function draw(){  
-  // currTime++;    
+function draw(){    
+  currTime++;    
   // if (currTime > duration){    
   //   currTime = 0;        
-  //   //setupObjects(objectData);
+  //   setupObjects();
   // }  
-  // if (objects.length > objectLimit){
-  //   for (let i = 0; i < objects.length - objectLimit; i++){
-  //     objects[i].elt.remove();
-  //     objects.splice(i, 1);
-  //   }
-  // }
+  const items = [...videos, ...images];
+  if (items.length > objectLimit){
+    for (let i = 0; i < 1; i++){
+      const video = videos[i];
+      if (video){
+        video.elt.remove();
+        videos.splice(i, 1);
+      }      
+    }
+    for (let i = 0; i < 5; i++){
+      const image = images[i];
+      if (image){
+        image.elt.remove();
+        images.splice(i, 1);
+      }      
+    }    
+  }
 
-  for (let i = 0; i < objects.length; i++){
+  const drawObject = (objects, i,  type) => {    
     const object = objects[i];
     const objectEl = object.elt;
     const x = objectEl.getAttribute('data-x');
-    const y = objectEl.getAttribute('data-y');
-    const objectType = objectEl.getAttribute('data-type');
+    const y = objectEl.getAttribute('data-y');  
     const objectWidth = objectEl.width;
     const objectHeight = objectEl.height;    
+    
+    
+  
     object.position(
       object.x + sin(millis() * .0001 + PI * noise(x, y)), 
       object.y + sin(millis() * .0002 + PI * noise(x, y)));
-      if (object.x > width || object.x < 0 - objectWidth || object.y > height || object.y < 0 - objectHeight){
+      if (object.x > width || object.x < 0 - objectWidth || object.y > height || object.y < 0 - objectHeight || object.x < width * 2/5){
         object.elt.remove();
         objects.splice(i, 1);        
-        setupObjects([objectData.filter(object => object.type === objectType).sort(() => 0.5 - Math.random())[0]])
+        setupObjects(type);
       }
+  }
+
+  for (let i = 0; i < videos.length; i++){
+    drawObject(videos, i, 'video')
+  }
+  for (let i = 0; i < images.length; i++){
+    drawObject(images, i,  'image')
   }
 
 
@@ -92,7 +112,7 @@ function draw(){
 
 function randomPosition() {
   // Set the maximum range of positions
-  let maxPosition = width;
+  let maxPosition = width + 1/5;
   let minPosition = width * 2/5;
   
   // Set the probability factor for the right side
@@ -111,66 +131,68 @@ function randomPosition() {
 }
 
 
-// function getGiphyData() {
-
-  
-//   const query1 = queryAdjectives[parseInt(random(queryAdjectives.length))];
-  
-//   const query2 = queryNouns[parseInt(random(queryNouns.length))];
-
-//   let url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${query1 + ' ' + query2}&limit=${limit}`;
-//   offset++;
-//   loadJSON(url, gotGiphyData);
-// }
-
 let currHeight = 0;
 
-function setupObjects(items) {  
-//  console.log(items);
+
+
+function setupObjects(type) {    
+
+  console.log(type);
+  let newImages = [], newVideos = [];
+  videoData = videoData.sort(() => 0.5 - Math.random());
+  imageData = imageData.sort(() => 0.5 - Math.random());
   
 
+  if (type){
+    if (type === 'video'){
+      newVideos = [videoData[0]];
+    }else{
+      newImages = [imageData[0]];    
+    }    
+  }else{
+    newVideos = videoData.slice(0, 5);
+    newImages = imageData.slice(0, 10);
+  }
 
-  let videos = items.filter(item => item.type === 'video');
-  let images = items.filter(item => item.type === 'image');
+  const items = [...newImages, ...newVideos];
 
-  // grab 3 videos and 3 images
-  items = videos.slice(0, 3).concat(images.slice(0, 20));  
-
-  items.sort(() => 0.5 - Math.random());
-  //console.log(items);
-  
-  items.forEach(item => {        
-    const x = randomPosition();
-    let object;
+  function positionObject(object){
+    const x = randomPosition();    
     currHeight += height/items.length;
     if (currHeight > height) currHeight = 0;
     const y = currHeight;       
     
     
-    if (item.type === 'video') {
-      object = createVideo(item.src);;
-      objectEl = object.elt;
-      objectEl.muted = true;
-      objectEl.autoplay = true;
-      objectEl.setAttribute('muted',true);
-      objectEl.setAttribute('autoplay',true);
-      object.volume(0);   
-      object.loop();       
-    }else{
-      object = createImg(item.src);
-      objectEl = object.elt;
-    }
-
-    
-    
     objectEl.setAttribute('data-x', x);
     objectEl.setAttribute('data-y', y);
-    objectEl.setAttribute('data-type', item.type);
+    objectEl.setAttribute('data-type', object.type);
     const size = random(map(x, width * 2/5, width, 70, 300), map(x, width * 2/5, width, 100, 400));    
 
     object.position(x, y);
     object.size(size, size);    
-    objects.push(object);
+  }
+
+  console.log(newVideos);
+  console.log(newImages);
+  
+  newVideos.forEach(videoData => {           
+    const video = createVideo(videoData.src);;
+    objectEl = video.elt;
+    objectEl.muted = true;
+    objectEl.autoplay = true;
+    objectEl.setAttribute('muted',true);
+    objectEl.setAttribute('autoplay',true);
+    video.volume(0);   
+    video.loop();       
+    positionObject(video);
+    videos.push(video);
     
   });
+  newImages.forEach(imageData => {
+    const image = createImg(imageData.src);
+    objectEl = image.elt;
+    positionObject(image);
+    images.push(image)
+  });
+
 }
