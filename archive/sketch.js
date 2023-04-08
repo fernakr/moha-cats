@@ -92,6 +92,7 @@ function draw(){
     const objectEl = object.elt;
     const x = objectEl.getAttribute('data-x');
     const y = objectEl.getAttribute('data-y');  
+    const type = objectEl.getAttribute('data-type');
     const objectWidth = objectEl.width;
     const objectHeight = objectEl.height;    
     
@@ -103,8 +104,9 @@ function draw(){
       object.x + sin(millis() * .0001 + PI * noise(x, y)), 
       object.y + sin(millis() * .0002 + PI * noise(x, y)));
       if (object.x > width || object.x < 0 - objectWidth || object.y > height || object.y < 0 - objectHeight || object.x < width / 2 - objectWidth){
-        objectEl.classList.remove('is-active');
-        objectEl.setAttribute('data-death', 1);
+        objects.splice(i, 1);                       
+        objectEl.remove();
+        setupObjects(type);
         //objectEl.remove();        
       }
   }
@@ -116,31 +118,31 @@ function draw(){
     drawObject(images, i)
   }
 
-  const dying = document.querySelectorAll('[data-death]');
-  const deathDuration = 50;
-  if (dying.length > 0){       
-    dying.forEach(item => {
+  // const dying = document.querySelectorAll('[data-death]');
+  // const deathDuration = 50;
+  // if (dying.length > 0){       
+  //   dying.forEach(item => {
 
-      console.log(item.getAttribute('data-death'));
-      let deathTime = parseInt(item.getAttribute('data-death'));
-      //console.log(deathTime);
-      // console.log(deathTime);
-      // console.log(deathDuration);
-      const type = item.getAttribute('data-type');
-      if (deathTime < deathDuration){
-        deathTime+= 1;
-        console.log(deathTime);
-        item.setAttribute('data-death', deathTime);
-      }else{    
-        const objects = type === 'video' ? videos : images;  
-        const findIndex = objects.findIndex(obj => obj.elt === item);  
+  //     console.log(item.getAttribute('data-death'));
+  //     let deathTime = parseInt(item.getAttribute('data-death'));
+  //     //console.log(deathTime);
+  //     // console.log(deathTime);
+  //     // console.log(deathDuration);
+  //     const type = item.getAttribute('data-type');
+  //     if (deathTime < deathDuration){
+  //       deathTime+= 1;
+  //       console.log(deathTime);
+  //       item.setAttribute('data-death', deathTime);
+  //     }else{    
+  //       const objects = type === 'video' ? videos : images;  
+  //       const findIndex = objects.findIndex(obj => obj.elt === item);  
         
-        objects.splice(findIndex, 1);                       
-        item.remove();
-        setupObjects(type);
-      }
-    })
-  }
+  //       objects.splice(findIndex, 1);                       
+  //       item.remove();
+  //       setupObjects(type);
+  //     }
+  //   })
+  // }
 
 
 }
