@@ -170,7 +170,7 @@ function setupObjects(type, limit) {
     objectEl.setAttribute('data-x', x);
     objectEl.setAttribute('data-y', y);
     objectEl.setAttribute('data-type', object.type);
-    const size = random(map(x, width * 2/5, width, 70, 300), map(x, width * 2/5, width, 100, 400));    
+    const size = random(map(x, width * 2/5, width, 70, 300), map(x, width * 2/5, width, 100, 300));    
 
     object.position(x, y);
     object.size(size, size);    
