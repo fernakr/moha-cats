@@ -73,16 +73,18 @@ class BerryChair{
   }  
   setDuration(){
     this.duration = 8000 + random(0, 10000);
+    //this.duration = 100;
   }
   draw(){
-    this.timer++;
-
-    if (this.timer > this.duration){
-      this.active = !this.active;
-      this.timer = 0;
-      this.setDuration();
-    }
-    if (this.active){
+    // console.log(this.timer);
+    // console.log(this.duration);
+    if (!this.active){
+      this.timer++;
+      if (this.timer > this.duration){
+        this.active = true;
+        this.timer = 0;
+      }
+    }else{
       background(255,200);
       const xIncrement = this.flip ? 10 : -10;
       this.x = this.x + xIncrement;
@@ -113,7 +115,10 @@ class BerryChair{
         this.x = width - 300;
       }
       if (this.y > height){
-        this.y = - chairImage.height;
+        this.y = 100;        
+        this.x = width;
+        this.active = false;
+        this.setDuration(this.active);
       }
     }    
   }
