@@ -69,13 +69,18 @@ class BerryChair{
     this.flip = false;
     this.timer = 0;
     this.active = true;
+    this.setDuration(); 
   }  
-
+  setDuration(){
+    this.duration = 8000 + random(0, 10000);
+  }
   draw(){
     this.timer++;
 
-    if (this.timer > 8000){
+    if (this.timer > this.duration){
       this.active = !this.active;
+      this.timer = 0;
+      this.setDuration();
     }
     if (this.active){
       background(255,200);
