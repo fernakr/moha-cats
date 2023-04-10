@@ -75,8 +75,10 @@ const imageLimit = 20;
 class BerryChair{
   constructor(){
     const randomFactor = random();
-    this.width = map(randomFactor, 0, 1, chairImage.width/3, chairImage.width);    
-    this.height = map(randomFactor, 0, 1, chairImage.height/3, chairImage.height);    
+
+    const imageRatio = chairImage.width / chairImage.height;
+    this.width = map(randomFactor, 0, 1, windowWidth/10, windowWidth/5);    
+    this.height = this.width / imageRatio;
     this.x = width;
     this.y = 100;    
     this.flip = false;
