@@ -14,15 +14,28 @@ let chair;
 
 
 function preload(){
-  objectData = loadJSON(apiRoot + '/download');
+
+  const objectStorage = localStorage.getItem('objectStorage');
+  const objectStorageExpiration = localStorage.getItem('objectStorageExpiration');
+  const now = new Date().getTime();
+  const expiration = 1000 * 60 * 60 * 24; // 24 hours
+
+  if(objectStorage && objectStorageExpiration && now < objectStorageExpiration){  
+    objectData = JSON.parse(objectStorage);
+  } else {
+    objectData = loadJSON(apiRoot + '/download', (data) => {
+      objectData = data.objects;
+      localStorage.setItem('objectStorageExpiration', now + expiration);
+      localStorage.setItem('objectStorage', JSON.stringify(objectData));
+    });            
+  }
   
   chairImage = loadImage('./berry-chair.png');
 }
 
 
 
-function setup() {
-  objectData = objectData.objects;
+function setup() {  
   
   videoData = objectData.filter(item => {    
     const fileExt = item.split('.').pop().toLowerCase();
