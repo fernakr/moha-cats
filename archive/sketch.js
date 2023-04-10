@@ -51,7 +51,7 @@ function setup() {
 
   imageData = objectData.filter(item => {
     const fileExt = item.split('.').pop().toLowerCase();
-    return fileExt === 'jpg' || fileExt === 'jpeg' || fileExt === 'png';
+    return fileExt === 'gif' || fileExt === 'jpg' || fileExt === 'jpeg' || fileExt === 'png';
   });
 
   imageData = imageData.map(item => ({
