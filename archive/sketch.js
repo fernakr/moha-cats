@@ -233,6 +233,11 @@ function draw(){
 
 }
 
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
 function randomPosition() {
   // Set the maximum range of positions
   let maxPosition = width;
