@@ -97,9 +97,12 @@ let sketch = function (p) {
             incrementProgress();
         }
     }
-    p.mousePressed = () => {        
-        if (!completed){
-            incrementProgress()
+    p.mousePressed = (e) => {        
+        
+        if (!completed && !p5Paused){
+            // if eelemnt is a button
+            //console.log(e.srcElement.tagName);
+            if (e.srcElement.tagName === 'BUTTON') incrementProgress()
         }         
     }
 
