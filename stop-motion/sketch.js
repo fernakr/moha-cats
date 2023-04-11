@@ -14,6 +14,8 @@ let sketch = function (p) {
     let glitchImage = false, glitchTexture = false;
     const padding = 20;
 
+    let currIncrement = 0;
+
     let finishedImage, shader;
     p.preload = () => {
         finishedImage = p.loadImage('../melt/screen.png');
@@ -93,7 +95,8 @@ let sketch = function (p) {
         
         const increment = currType.value;
         if (progress + increment < p.width){
-            progress += increment;
+            console.log(currIncrement);
+            currIncrement += increment;            
         }else{
             incrementProgress();
         }
@@ -110,11 +113,23 @@ let sketch = function (p) {
 
 
     p.draw = () => {
+        
         if (!p5Paused) timeElapsed = timeElapsed + p.deltaTime;
 
         if (completed){
             progress+= p.width/50;
         }else{
+            if (currIncrement !== 0){                
+                const progressIncrement = p.floor(p.width/100);
+                if (currIncrement > 0){
+                    progress+=progressIncrement;
+                    currIncrement-=progressIncrement;
+                } 
+                if (currIncrement < 0){
+                    currIncrement+=progressIncrement;
+                    progress-=progressIncrement;
+                } 
+            }
             if (progress < 0) progress = 0;            
         }
         p.background('gray');
