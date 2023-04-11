@@ -125,7 +125,7 @@ class BerryChair{
       
   
   
-      if (this.x > width/2 ){
+      if (this.x > width * 3/5 ){
         this.flip = true;
         this.x -= 300;
   
