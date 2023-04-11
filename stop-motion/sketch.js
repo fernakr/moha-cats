@@ -95,7 +95,7 @@ let sketch = function (p) {
         
         const increment = currType.value;
         if (progress + increment < p.width){
-            console.log(currIncrement);
+            //console.log(currIncrement);
             currIncrement += increment;            
         }else{
             incrementProgress();
