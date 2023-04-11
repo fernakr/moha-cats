@@ -64,6 +64,7 @@ let sketch = function (p) {
         const currPercentage = progress / p.width;
         const remainingWidth = (p.width - progress) / 2;
         const intendedPercentage = timeElapsed / (duration * 60 * 1000);
+        //const intendedWidth = intendedPercentage * p.width;
 //        console.log('curr', currPercentage);
 
         const percentageDiff = currPercentage - intendedPercentage;
@@ -71,7 +72,7 @@ let sketch = function (p) {
 
         const probabilityFactor = p.map(percentageDiff, -0.1, 0.1, 0.2, -0.2)
         let probabilityStart = 0.6 + probabilityFactor;
-        const incrementOption = p.map(randomInput1, 0, 1, remainingWidth / 2, remainingWidth);
+        const incrementOption = p.map(randomInput1, 0, 1, p.width/50, remainingWidth / 4);
         
         const types = [
             {
