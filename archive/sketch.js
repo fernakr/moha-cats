@@ -4,6 +4,8 @@ let videoData;
 let imageData;
 let currHeight = 0;
 
+let minPosition, maxPosition
+
 // change API root url depending on build or dev
 //const apiRoot = process.env.NODE_ENV === 'development' ? 'http://localhost:2000' : 'https://moha-cats.herokuapp.com';
 
@@ -61,6 +63,9 @@ function setup() {
   
 
   createCanvas(windowWidth, windowHeight);
+  minPosition = 0;
+  maxPosition = width * 3/5;
+
   setupObjects();  
   chair = new BerryChair();
 }
@@ -79,7 +84,7 @@ class BerryChair{
     const imageRatio = chairImage.width / chairImage.height;
     this.width = map(randomFactor, 0, 1, windowWidth/10, windowWidth/5);    
     this.height = this.width / imageRatio;
-    this.x = width;
+    this.x = 0 - this.width;
     this.y = 100;    
     this.flip = false;
     this.timer = 0;
@@ -101,7 +106,7 @@ class BerryChair{
       }
     }else{
       background(255,200);
-      const xIncrement = this.flip ? 10 : -10;
+      const xIncrement = this.flip ? -10 : 10;
       this.x = this.x + xIncrement;
       this.y = this.y + 1;
       
@@ -109,7 +114,7 @@ class BerryChair{
       push();
       
       // Scale -1, 1 means reverse the x axis, keep y the same.
-      if (this.flip){            
+      if (!this.flip){            
         scale(-1, 1);
       }
       this.img = image(chairImage, 0, 0, this.width, this.height);
@@ -120,18 +125,18 @@ class BerryChair{
       
   
   
-      if (this.x < width/2 - chairImage.width){
+      if (this.x > width/2 ){
         this.flip = true;
-        this.x += 300;
+        this.x -= 300;
   
       }
-      if (this.x > width && this.flip){
+      if (this.x < 0 && this.flip){
         this.flip = false;
-        this.x = width - 300;
+        this.x = 300;
       }
       if (this.y > height){
         this.y = 100;        
-        this.x = width;
+        this.x = 0 - this.width;
         this.active = false;
         this.setDuration(this.active);
       }
@@ -189,7 +194,7 @@ function draw(){
     object.position(
       object.x + sin(millis() * .0001 + PI * noise(x, y)), 
       object.y + sin(millis() * .0002 + PI * noise(x, y)));
-      if (object.x > width || object.x < 0 - objectWidth || object.y > height || object.y < 0 - objectHeight || object.x < width / 2 - objectWidth){
+      if (object.x < 0 - objectWidth || object.y > height || object.y < 0 - objectHeight || object.x > width / 2){
         objects.splice(i, 1);                       
         objectEl.remove();
         setupObjects(type);
@@ -240,8 +245,6 @@ function windowResized() {
 
 function randomPosition() {
   // Set the maximum range of positions
-  let maxPosition = width;
-  let minPosition = width * 2/5;
   
   // Set the probability factor for the right side
   let rightFactor = 10;
@@ -296,7 +299,7 @@ function setupObjects(type, limit) {
     objectEl.setAttribute('data-x', x);
     objectEl.setAttribute('data-y', y);
     objectEl.setAttribute('data-type', type);
-    const size = random(map(x, width * 2/5, width, windowWidth/10, windowWidth/6), map(x, width * 2/5, width, windowHeight/20, windowHeight/6));    
+    const size = random(map(x, maxPosition, minPosition, windowWidth/10, windowWidth/6), map(x, maxPosition, minPosition, windowHeight/20, windowHeight/6));    
 
     // const opacity = map(random, 0, 1, 0.5, 1)
     // objectEl.style.opacity(opacity);
