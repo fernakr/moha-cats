@@ -127,6 +127,9 @@ button{
     -webkit-appearance: none;
     color: black;
 }
+    button small{
+        pointer-events: none;
+    }
     /* button:not(:last-child){
         //border-bottom: 0;
     } */
