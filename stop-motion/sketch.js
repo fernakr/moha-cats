@@ -35,6 +35,11 @@ let sketch = function (p) {
         //console.log(e.touches);
         if (p5Paused && e.touches.length) p5Paused = false;
         document.body.classList.toggle('is-paused', p5Paused);
+        if (!completed && !p5Paused){
+            // if eelemnt is a button
+            //console.log(e.srcElement.tagName);
+            if (e.srcElement.tagName === 'BUTTON') incrementProgress()
+        }    
     }
     p.keyPressed = () => {
         if (p.keyCode === 32) {
@@ -101,6 +106,8 @@ let sketch = function (p) {
             incrementProgress();
         }
     }
+
+
     p.mousePressed = (e) => {        
         
         if (!completed && !p5Paused){
@@ -109,6 +116,8 @@ let sketch = function (p) {
             if (e.srcElement.tagName === 'BUTTON') incrementProgress()
         }         
     }
+
+
 
 
 
